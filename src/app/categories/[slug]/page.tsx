@@ -28,8 +28,11 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   return (
     <main className="container mx-auto px-4 py-12">
       <div className="mb-12">
-        <Link href="/" className="mb-4 inline-block text-sm text-gray-500 hover:text-gray-900 dark:hover:text-gray-100">
-          ← Back to all posts
+        <Link
+          href="/categories"
+          className="mb-4 inline-flex items-center text-sm text-zinc-400 transition-colors hover:text-cyan-400"
+        >
+          <span className="mr-2">←</span> Back to Categories
         </Link>
         <h1 className="text-4xl font-bold">{categoryTitle}</h1>
         <p className="mt-2 text-gray-500">{posts.length} posts</p>
@@ -40,12 +43,14 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           <Link
             key={post.slug}
             href={`/posts/${post.slug}`}
-            className="block rounded-lg border border-zinc-200 bg-white p-6 transition-colors hover:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-900"
+            className="group block rounded-xl border border-white/10 bg-zinc-900/40 p-6 backdrop-blur-sm transition-all hover:border-cyan-500/30 hover:bg-zinc-900/80 hover:shadow-lg hover:shadow-cyan-900/10"
           >
-            <h2 className="mb-2 text-xl font-semibold">{post.frontmatter.title}</h2>
-            <p className="mb-4 line-clamp-2 text-gray-500">{post.frontmatter.description}</p>
-            <div className="flex justify-between text-sm text-gray-400">
-              <span>{post.frontmatter.category}</span>
+            <h2 className="mb-2 text-xl font-semibold text-zinc-100 transition-colors group-hover:text-cyan-400">
+              {post.frontmatter.title}
+            </h2>
+            <p className="mb-4 line-clamp-2 text-zinc-400">{post.frontmatter.description}</p>
+            <div className="flex justify-between text-sm text-zinc-500">
+              <span className="text-cyan-500/80">{post.frontmatter.category}</span>
               <time dateTime={post.frontmatter.date}>{new Date(post.frontmatter.date).toLocaleDateString()}</time>
             </div>
           </Link>
