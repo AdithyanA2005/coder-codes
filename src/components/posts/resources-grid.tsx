@@ -1,8 +1,5 @@
-"use client";
-
 import Link from "next/link";
 import { ArrowRightIcon, Sparkles } from "lucide-react";
-import * as motion from "motion/react-client";
 
 export function ResourcesGrid({ posts }: { posts: any[] }) {
   return (
@@ -23,11 +20,11 @@ export function ResourcesGrid({ posts }: { posts: any[] }) {
                   </span>
                 </div>
 
-                <h3 className="mb-2 text-lg font-bold tracking-tight text-white transition-colors group-hover:text-cyan-400">
+                <h2 className="mb-2 text-lg font-bold tracking-tight text-white transition-colors group-hover:text-cyan-400">
                   {post.frontmatter.title}
-                </h3>
+                </h2>
 
-                <p className="line-clamp-2 text-sm leading-relaxed text-zinc-400 group-hover:text-zinc-300">
+                <p className="line-clamp-2 text-sm leading-relaxed text-zinc-300 group-hover:text-zinc-300">
                   {post.frontmatter.description}
                 </p>
               </div>
@@ -35,7 +32,7 @@ export function ResourcesGrid({ posts }: { posts: any[] }) {
               <div className="mt-6 flex items-center justify-between border-t border-white/5 pt-4">
                 <time
                   dateTime={post.frontmatter.date}
-                  className="text-[10px] font-medium tracking-wider text-zinc-500 uppercase group-hover:text-zinc-400"
+                  className="text-[10px] font-medium tracking-wider text-zinc-400 uppercase group-hover:text-zinc-400"
                 >
                   {new Date(post.frontmatter.date).toLocaleDateString("en-IN", {
                     year: "numeric",
@@ -43,7 +40,7 @@ export function ResourcesGrid({ posts }: { posts: any[] }) {
                     day: "numeric",
                   })}
                 </time>
-                <ArrowRightIcon className="size-4 text-zinc-500 transition-transform group-hover:translate-x-1 group-hover:text-cyan-400" />
+                <ArrowRightIcon className="size-4 text-zinc-400 transition-transform group-hover:translate-x-1 group-hover:text-cyan-400" />
               </div>
             </Link>
           </div>

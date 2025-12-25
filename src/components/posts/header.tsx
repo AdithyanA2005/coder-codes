@@ -1,7 +1,3 @@
-"use client";
-
-import * as motion from "motion/react-client";
-
 export function PostsHeader() {
   return (
     <div className="mx-auto mt-4 mb-8 max-w-3xl text-center sm:mt-8 sm:mb-16">

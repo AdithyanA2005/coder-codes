@@ -2,7 +2,6 @@
 
 import React, { useRef, useState } from "react";
 import Link from "next/link";
-import * as motion from "motion/react-client";
 
 interface Category {
   title: string;
