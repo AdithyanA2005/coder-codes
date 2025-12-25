@@ -37,7 +37,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   return (
     <html lang="en" className="dark">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <div className="min-h-screen pt-32">
+        <div className="min-h-screen">
           <Navbar />
           {children}
         </div>

@@ -64,7 +64,7 @@ export function AnimatedGrid({ posts, categories }: { posts: any[]; categories: 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: "easeOut", delay: 0.2 }} // Sequential flow
-        className="mb-12 text-center"
+        className="mb-10 text-center"
       >
         <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
           Latest <span className="text-cyan-400">Resources</span>
@@ -78,7 +78,7 @@ export function AnimatedGrid({ posts, categories }: { posts: any[]; categories: 
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className={`scrollbar-hide mb-16 overflow-x-auto pb-4 ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
+        className={`scrollbar-hide mb-6 overflow-x-auto pb-4 ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
         onMouseDown={handleMouseDown}
         onMouseLeave={handleMouseLeave}
         onMouseUp={handleMouseUp}
