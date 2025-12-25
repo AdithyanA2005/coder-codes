@@ -16,8 +16,21 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "CoderCodes",
-  description: "Showcase of all KTU BTech CS lab programs by Adithyan A.",
+  title: "CoderCodes - KTU CS Lab Programs",
+  description:
+    "A comprehensive collection of KTU BTech CS lab programs, simplified for clarity and performance. Built by Adithyan A.",
+  keywords: ["KTU", "CS", "Lab Programs", "BTech", "Computer Science", "CoderCodes", "Adithyan A"],
+  openGraph: {
+    title: "CoderCodes - KTU CS Lab Programs",
+    description: "Simplified KTU BTech CS lab programs for easy learning.",
+    url: "https://codercodes.vercel.app", // Assuming Vercel deployment, update if known
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CoderCodes",
+    description: "KTU CS Lab Programs, Simplified.",
+  },
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
