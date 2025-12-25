@@ -23,6 +23,7 @@ export function Navbar() {
         <Link
           href="https://github.com/AdithyanA2005/CoderCodes"
           target="_blank"
+          aria-label="GitHub"
           className="flex items-center gap-2 text-sm font-medium text-zinc-400 transition-colors hover:text-white"
         >
           <Github className="size-4" />

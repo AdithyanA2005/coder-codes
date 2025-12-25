@@ -23,7 +23,7 @@ const itemVariants = {
     y: 0,
     transition: {
       duration: 0.3,
-      ease: "easeOut",
+      ease: "easeOut" as const,
     },
   },
 };
@@ -121,7 +121,7 @@ export function AnimatedGrid({ posts, categories }: { posts: any[]; categories: 
 
               <div className="relative flex flex-1 flex-col">
                 <div className="flex items-start justify-between gap-4">
-                  <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-cyan-500/20 bg-cyan-500/10 px-2.5 py-0.5 text-[10px] font-medium tracking-wide text-cyan-300 uppercase">
+                  <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-cyan-500/20 bg-cyan-500/10 px-2.5 py-0.5 text-xs font-medium tracking-wide text-cyan-300 uppercase">
                     <Sparkles className="size-2.5" />
                     {post.frontmatter.category}
                   </span>
@@ -139,7 +139,7 @@ export function AnimatedGrid({ posts, categories }: { posts: any[]; categories: 
               <div className="mt-auto flex items-center justify-between pt-4">
                 <time
                   dateTime={post.frontmatter.date}
-                  className="text-[10px] font-medium tracking-wider text-zinc-400 uppercase"
+                  className="text-xs font-medium tracking-wider text-zinc-100 uppercase"
                 >
                   {new Date(post.frontmatter.date).toLocaleDateString(undefined, {
                     year: "numeric",
