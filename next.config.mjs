@@ -1,15 +1,15 @@
+import createMDX from "@next/mdx";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Your Next.js config here
-  webpack: (webpackConfig) => {
-    webpackConfig.resolve.extensionAlias = {
-      ".cjs": [".cts", ".cjs"],
-      ".js": [".ts", ".tsx", ".js", ".jsx"],
-      ".mjs": [".mts", ".mjs"],
-    };
-
-    return webpackConfig;
-  },
+  // Configure `pageExtensions` to include markdown and MDX files
+  pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
+  // Optionally, add any other Next.js config below
 };
 
-export default nextConfig;
+const withMDX = createMDX({
+  // Add markdown plugins here, as desired
+});
+
+// Merge MDX config with Next.js config
+export default withMDX(nextConfig);
