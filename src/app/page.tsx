@@ -1,11 +1,12 @@
-import { AnimatedGrid } from "@/components/home/animated-grid";
+import { Metadata } from "next";
 import { Hero } from "@/components/home/hero";
-import { getAllPosts, getAllCategories } from "@/lib/mdx";
 
-export default async function Page() {
-  const posts = getAllPosts();
-  const categories = getAllCategories();
+export const metadata: Metadata = {
+  title: "CoderCodes - KTU CS Lab Programs",
+  description: "A comprehensive collection of KTU BTech CS lab programs, simplified for clarity and performance.",
+};
 
+export default function Page() {
   return (
     <main className="relative min-h-screen selection:bg-cyan-500/30">
       {/* Global Background Effects - Visible across Hero and Grid */}
@@ -18,7 +19,6 @@ export default async function Page() {
       <div className="fixed inset-0 -z-20 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] bg-center" />
 
       <Hero />
-      <AnimatedGrid posts={posts} categories={categories} />
     </main>
   );
 }

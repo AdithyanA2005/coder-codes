@@ -16,7 +16,7 @@ export function Navbar() {
         <Link href="/" className="text-sm font-medium text-zinc-400 transition-colors hover:text-white">
           Home
         </Link>
-        <Link href="#posts" className="text-sm font-medium text-zinc-400 transition-colors hover:text-cyan-400">
+        <Link href="/posts" className="text-sm font-medium text-zinc-400 transition-colors hover:text-cyan-400">
           Resources
         </Link>
         <div className="h-4 w-px bg-white/10" />

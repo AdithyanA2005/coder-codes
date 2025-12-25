@@ -27,7 +27,7 @@ export function Hero() {
             className="mt-10 flex items-center justify-center gap-x-6"
           >
             <Link
-              href="#posts"
+              href="/posts"
               className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-black shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-transform hover:scale-105 hover:bg-zinc-100"
             >
               Explore Programs
