@@ -1,72 +1,89 @@
-import Image from "next/image";
 import Link from "next/link";
-import { GitHubIcon, GmailIcon, LinkedInIcon, XIcon } from "./icons";
+import { Github, Linkedin, Mail, Twitter, ArrowUpRight } from "lucide-react";
+import { Logo } from "@/components/logo";
 
 export function Footer() {
   const year = new Date().getFullYear();
 
-  const socials = [
-    { name: "LinkedIn", url: "https://www.linkedin.com/in/iadithyana/", icon: LinkedInIcon },
-    { name: "GitHub", url: "https://github.com/AdithyanA2005/", icon: GitHubIcon },
-    { name: "Gmail", url: "mailto:deepaadithyan56@gmail.com", icon: GmailIcon },
-    { name: "X", url: "https://x.com/iadithyana/", icon: XIcon },
-  ];
+  const navigation = {
+    explore: [
+      { name: "Home", href: "/" },
+      { name: "Library", href: "/posts" },
+      { name: "All Categories", href: "/#categories" },
+    ],
+    connect: [
+      { name: "GitHub", href: "https://github.com/AdithyanA2005/", icon: Github },
+      { name: "LinkedIn", href: "https://www.linkedin.com/in/iadithyana/", icon: Linkedin },
+      { name: "Twitter", href: "https://x.com/iadithyana/", icon: Twitter },
+      { name: "Email", href: "mailto:deepaadithyan56@gmail.com", icon: Mail },
+    ],
+  };
 
   return (
-    <footer className="bg-background border-t">
-      <div className="mx-auto w-full max-w-5xl px-4 py-8">
-        <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
-          <div className="flex items-center gap-4">
-            <Image
-              src="/images/adithyan.png"
-              alt="Portrait of Adithyan A"
-              width={56}
-              height={56}
-              className="ring-border h-14 w-14 rounded-full object-cover ring-2"
-            />
-            <div className="space-y-1">
-              <p className="text-foreground text-sm font-medium">
-                CoderCodes - <i>By Adithyan A</i>
-              </p>
-              <p className="text-muted-foreground text-xs">© {year} Adithyan A. All rights reserved.</p>
+    <footer className="relative z-10 border-t border-white/5 bg-black">
+      {/* Subtle Grid Background */}
+      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] bg-[size:24px_24px]" />
+
+      <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          {/* Brand Section */}
+          <div className="lg:col-span-1">
+            <Logo />
+            <p className="mt-4 max-w-xs text-sm leading-6 text-zinc-400">
+              A collection of optimized lab programs for KTU BTech CS students. Open source and built for the community.
+            </p>
+            <div className="mt-6 flex gap-4">
+              <Link
+                href="https://adithyana.vercel.app"
+                target="_blank"
+                className="group flex items-center gap-2 rounded-full border border-white/5 bg-white/5 px-4 py-2 text-xs font-medium text-zinc-300 transition-colors hover:border-cyan-500/20 hover:bg-cyan-500/10 hover:text-cyan-200"
+              >
+                <span>Built by Adithyan A</span>
+                <ArrowUpRight className="h-3 w-3 opacity-50 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </Link>
             </div>
           </div>
 
-          <nav aria-label="Social links">
-            <ul className="flex items-center gap-4">
-              {socials?.map((social) => (
-                <li key={social.name}>
-                  <Link
-                    href={social.url}
-                    aria-label={social.name}
-                    target={social.url.startsWith("http") ? "_blank" : undefined}
-                    rel={social.url.startsWith("http") ? "noopener noreferrer" : undefined}
-                    className="text-muted-foreground hover:text-primary focus-visible:ring-ring inline-flex h-6 w-6 items-center justify-center rounded-md transition-colors focus:outline-none focus-visible:ring-2"
-                  >
-                    <span className="sr-only">{social.name}</span>
-                    <social.icon />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          {/* Links Sections */}
+          <div className="grid grid-cols-2 gap-8 lg:col-span-2 lg:gap-12">
+            <div>
+              <h3 className="text-sm leading-6 font-semibold text-white">Explore</h3>
+              <ul className="mt-6 space-y-4">
+                {navigation.explore.map((item) => (
+                  <li key={item.name}>
+                    <Link
+                      href={item.href}
+                      className="text-sm leading-6 text-zinc-400 transition-colors hover:text-cyan-400"
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-sm leading-6 font-semibold text-white">Connect</h3>
+              <ul className="mt-6 space-y-4">
+                {navigation.connect.map((item) => (
+                  <li key={item.name}>
+                    <Link
+                      href={item.href}
+                      target="_blank"
+                      className="group flex items-center gap-2 text-sm leading-6 text-zinc-400 transition-colors hover:text-white"
+                    >
+                      <item.icon className="h-4 w-4 text-zinc-500 transition-colors group-hover:text-white" />
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div className="bg-muted/60 border-t">
-        <div className="mx-auto w-full max-w-5xl px-4 py-3">
-          <p className="text-foreground text-center text-sm">
-            {"Developed by "}
-            <Link
-              href="https://adithyana.vercel.app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-primary font-mono underline underline-offset-4"
-              aria-label="Visit Adithyan A portfolio"
-            >
-              {"<Adithyan A/>"}
-            </Link>
-          </p>
+        {/* Bottom Bar */}
+        <div className="mt-12 border-t border-white/5 pt-8">
+          <p className="text-xs leading-5 text-zinc-500">&copy; {year} CoderCodes. All rights reserved.</p>
         </div>
       </div>
     </footer>
