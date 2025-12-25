@@ -47,7 +47,7 @@ export function Footer() {
           {/* Links Sections */}
           <div className="grid grid-cols-2 gap-8 lg:col-span-2 lg:gap-12">
             <div>
-              <h3 className="text-sm leading-6 font-semibold text-white">Explore</h3>
+              <p className="text-sm leading-6 font-semibold text-white">Explore</p>
               <ul className="mt-6 space-y-4">
                 {navigation.explore.map((item) => (
                   <li key={item.name}>
@@ -62,7 +62,7 @@ export function Footer() {
               </ul>
             </div>
             <div>
-              <h3 className="text-sm leading-6 font-semibold text-white">Connect</h3>
+              <p className="text-sm leading-6 font-semibold text-white">Connect</p>
               <ul className="mt-6 space-y-4">
                 {navigation.connect.map((item) => (
                   <li key={item.name}>
