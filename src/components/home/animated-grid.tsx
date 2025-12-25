@@ -141,7 +141,7 @@ export function AnimatedGrid({ posts, categories }: { posts: any[]; categories: 
                   dateTime={post.frontmatter.date}
                   className="text-xs font-medium tracking-wider text-zinc-100 uppercase"
                 >
-                  {new Date(post.frontmatter.date).toLocaleDateString(undefined, {
+                  {new Date(post.frontmatter.date).toLocaleDateString("en-IN", {
                     year: "numeric",
                     month: "short",
                     day: "numeric",
