@@ -59,37 +59,43 @@ export function ResourcesGrid({ posts, categories }: { posts: any[]; categories:
 
   return (
     <div className="relative z-10 mx-auto max-w-7xl px-6 pb-20" id="resources">
-      {/* Page Header */}
+      {/* Centered Page Header */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
-        className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between"
+        className="mx-auto mt-4 mb-8 max-w-3xl text-center sm:mt-8 sm:mb-16"
       >
-        <div className="max-w-2xl">
-          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">Library</h1>
-          <p className="mt-4 text-lg text-zinc-400">
-            Explore a curated collection of KTU BTech CS lab programs, simplified and optimized for learning.
-          </p>
+        <div className="mb-4 flex justify-center">
+          <span className="rounded-full border border-cyan-500/20 bg-cyan-500/10 px-3 py-1 text-xs font-medium tracking-wide text-cyan-300 backdrop-blur-md">
+            Updated for 2024
+          </span>
         </div>
+        <h1 className="bg-gradient-to-br from-white via-zinc-200 to-zinc-500 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-6xl">
+          Explore the Library
+        </h1>
+        <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-zinc-400 sm:mt-6 sm:text-lg">
+          A curated collection of optimized KTU BTech CS lab programs. <br className="hidden sm:inline" />
+          Search, filter, and copy code instantly.
+        </p>
       </motion.div>
 
-      {/* Categories Scroller */}
+      {/* Categories Scroller - Centered */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="mb-10"
+        className="mb-8 flex justify-center sm:mb-12"
       >
         <div
           ref={scrollContainerRef}
-          className={`scrollbar-hide -mx-6 flex overflow-x-auto px-6 pb-4 md:mx-0 md:px-0 ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
+          className={`scrollbar-hide -mx-6 flex w-full max-w-4xl overflow-x-auto px-6 pb-4 md:mx-auto md:justify-center md:px-0 ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
           onMouseDown={handleMouseDown}
           onMouseLeave={handleMouseLeave}
           onMouseUp={handleMouseUp}
           onMouseMove={handleMouseMove}
         >
-          <div className="flex min-w-max gap-3">
+          <div className="flex min-w-max gap-2 sm:gap-3">
             {categories.map((category) => (
               <Link
                 key={category.slug}
@@ -98,7 +104,7 @@ export function ResourcesGrid({ posts, categories }: { posts: any[]; categories:
                   if (isDragging) e.preventDefault();
                 }}
                 draggable={false}
-                className="group relative flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-medium text-zinc-300 backdrop-blur-md transition-all select-none hover:border-cyan-500/50 hover:bg-cyan-950/30 hover:text-cyan-200"
+                className="group relative flex items-center gap-2 rounded-full border border-white/5 bg-white/5 px-4 py-2 text-sm font-medium text-zinc-400 backdrop-blur-md transition-all select-none hover:border-cyan-500/30 hover:bg-cyan-950/20 hover:text-cyan-200 sm:px-5 sm:py-2.5"
               >
                 <span className="relative z-10">{category.title}</span>
               </Link>
