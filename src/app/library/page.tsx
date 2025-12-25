@@ -1,7 +1,7 @@
 import { Metadata } from "next";
-import { CategoryBar } from "@/components/posts/category-bar";
-import { PostsHeader } from "@/components/posts/header";
-import { ResourcesGrid } from "@/components/posts/resources-grid";
+import { CategoryBar } from "@/components/library/category-bar";
+import { ResourcesGrid } from "@/components/library/library-grid";
+import { PostsHeader } from "@/components/library/library-header";
 import { getAllPosts, getAllCategories } from "@/lib/mdx";
 
 export const metadata: Metadata = {

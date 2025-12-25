@@ -19,7 +19,7 @@ export function CTA() {
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <Link
-              href="/posts"
+              href="/library"
               className="rounded-full bg-cyan-500 px-8 py-3.5 text-sm font-semibold text-black shadow-lg shadow-cyan-500/20 transition-all hover:scale-105 hover:bg-cyan-400 hover:shadow-cyan-500/40"
             >
               Go to Library

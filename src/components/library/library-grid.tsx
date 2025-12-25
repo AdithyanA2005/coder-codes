@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRightIcon, Sparkles } from "lucide-react";
-import { PostCard } from "./post-card";
+import { ProgramCard } from "./program-card";
 
 export function ResourcesGrid({ posts }: { posts: any[] }) {
   return (
@@ -9,7 +9,7 @@ export function ResourcesGrid({ posts }: { posts: any[] }) {
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => (
           <div key={post.slug}>
-            <PostCard post={post} />
+            <ProgramCard post={post} />
           </div>
         ))}
       </div>

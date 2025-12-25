@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PostCard } from "@/components/posts/post-card";
+import { ProgramCard } from "@/components/library/program-card";
 import { getAllCategories, getPostsByCategorySlug } from "@/lib/mdx";
 
 interface CategoryPageProps {
@@ -42,7 +42,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => (
           <div key={post.slug} className="h-full">
-            <PostCard post={post} hideCategory={true} />
+            <ProgramCard post={post} hideCategory={true} />
           </div>
         ))}
       </div>

@@ -2,15 +2,15 @@ import Link from "next/link";
 import { ArrowRightIcon, Sparkles } from "lucide-react";
 import type { Post } from "@/lib/mdx";
 
-interface PostCardProps {
+interface ProgramCardProps {
   post: Post;
   hideCategory?: boolean;
 }
 
-export function PostCard({ post, hideCategory = false }: PostCardProps) {
+export function ProgramCard({ post, hideCategory = false }: ProgramCardProps) {
   return (
     <Link
-      href={`/posts/${post.slug}`}
+      href={`/library/${post.slug}`}
       className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-6 backdrop-blur-sm transition-all hover:border-cyan-500/30 hover:bg-zinc-900/80 hover:shadow-lg hover:shadow-cyan-900/10"
     >
       <div className="relative flex flex-1 flex-col">

@@ -8,7 +8,7 @@ export function Footer() {
   const navigation = {
     explore: [
       { name: "Home", href: "/" },
-      { name: "Library", href: "/posts" },
+      { name: "Library", href: "/library" },
       { name: "All Categories", href: "/categories" },
     ],
     connect: [
