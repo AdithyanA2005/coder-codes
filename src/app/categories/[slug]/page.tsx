@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CategorySlugHeader } from "@/components/categories/category-slug-header";
 import { ProgramCard } from "@/components/library/program-card";
 import { getAllCategories, getPostsByCategorySlug } from "@/lib/mdx";
 
@@ -27,24 +28,29 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   const categoryTitle = posts[0].frontmatter.category;
 
   return (
-    <main className="mx-auto max-w-7xl px-6 pt-32 pb-20">
-      <div className="mb-12">
+    <main className="relative min-h-screen pt-24 selection:bg-cyan-500/30 sm:pt-32">
+      {/* Global Background Effects */}
+      <div className="fixed inset-0 -z-50 bg-black" />
+      <div className="fixed inset-0 -z-40 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-900/80 via-black to-black" />
+      <div className="fixed top-0 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-cyan-500/10 opacity-30 blur-[100px]" />
+
+      <div className="mx-auto max-w-7xl px-6 pb-20">
         <Link
           href="/categories"
-          className="mb-4 inline-flex items-center text-sm text-zinc-400 transition-colors hover:text-cyan-400"
+          className="mb-8 inline-flex items-center text-sm font-medium text-zinc-400 transition-colors hover:text-cyan-400"
         >
-          <span className="mr-2">←</span> Back to Categories
+          <span className="mr-2 text-lg">←</span> Back to Categories
         </Link>
-        <h1 className="text-4xl font-bold">{categoryTitle}</h1>
-        <p className="mt-2 text-gray-500">{posts.length} posts</p>
-      </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {posts.map((post) => (
-          <div key={post.slug} className="h-full">
-            <ProgramCard post={post} hideCategory={true} />
-          </div>
-        ))}
+        <CategorySlugHeader title={categoryTitle} count={posts.length} />
+
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => (
+            <div key={post.slug} className="h-full">
+              <ProgramCard post={post} hideCategory={true} />
+            </div>
+          ))}
+        </div>
       </div>
     </main>
   );
