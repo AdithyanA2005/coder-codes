@@ -8,7 +8,9 @@ const nextConfig = {
 };
 
 const withMDX = createMDX({
-  // Add markdown plugins here, as desired
+  options: {
+    remarkPlugins: ["remark-frontmatter", "remark-mdx-frontmatter"],
+  },
 });
 
 // Merge MDX config with Next.js config

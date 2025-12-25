@@ -1,7 +1,5 @@
-import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { MDXContent } from "@/components/mdx-content";
-import { getPostBySlug, getPostSlugs } from "@/lib/mdx";
+import { getPostSlugs } from "@/lib/mdx";
 
 interface PostPageProps {
   params: Promise<{
@@ -16,13 +14,13 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: PostPageProps) {
   const { slug } = await params;
   try {
-    const post = getPostBySlug(slug);
+    const { frontmatter } = await import(`@/content/posts/${slug}.mdx`);
     return {
-      title: post.frontmatter.title,
-      description: post.frontmatter.description,
+      title: frontmatter.title,
+      description: frontmatter.description,
     };
   } catch (error) {
     return {
@@ -33,25 +31,34 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
 
 export default async function PostPage({ params }: PostPageProps) {
   const { slug } = await params;
-  let post;
+
   try {
-    post = getPostBySlug(slug);
+    const { default: PostContent, frontmatter } = await import(`@/content/posts/${slug}.mdx`);
+
+    return (
+      <article className="container mx-auto max-w-3xl px-4 pt-32 pb-20">
+        <div className="mb-8 text-center">
+          <h1 className="mb-4 text-4xl font-bold text-white">{frontmatter.title}</h1>
+          <div className="flex items-center justify-center gap-4 text-zinc-400">
+            <time dateTime={frontmatter.date}>
+              {new Date(frontmatter.date).toLocaleDateString("en-IN", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
+            </time>
+            <span>•</span>
+            <span className="text-cyan-400">{frontmatter.category}</span>
+          </div>
+        </div>
+
+        <div className="prose prose-invert prose-pre:bg-[#1e1e1e] prose-pre:p-0 max-w-none">
+          <PostContent />
+        </div>
+      </article>
+    );
   } catch (error) {
+    console.error(error);
     notFound();
   }
-
-  return (
-    <article className="container mx-auto max-w-3xl px-4 pt-32">
-      <div className="mb-8 text-center">
-        <h1 className="mb-4 text-4xl font-bold">{post.frontmatter.title}</h1>
-        <div className="space-x-4 text-gray-500">
-          <time dateTime={post.frontmatter.date}>{new Date(post.frontmatter.date).toLocaleDateString()}</time>
-          <span>•</span>
-          <span>{post.frontmatter.category}</span>
-        </div>
-      </div>
-
-      <MDXContent source={post.content} />
-    </article>
-  );
 }
