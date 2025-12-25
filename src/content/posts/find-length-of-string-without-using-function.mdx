@@ -1,0 +1,25 @@
+---
+title: Find length of string without using function
+description: ''
+category: C Programming Lab
+date: '2025-09-03T23:44:16.072Z'
+---
+## Program
+
+```c
+#include <stdio.h>
+
+int main() {
+  int length = 0;
+  char str[100];
+  
+  printf("Enter a string: ");
+  scanf("%s", str);
+
+  for (int i = 0; str[i] != '\0'; i++) {
+    length++;
+  }
+  printf("Length: %d", length);
+}
+```
+

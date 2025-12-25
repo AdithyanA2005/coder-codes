@@ -1,0 +1,186 @@
+---
+title: 'Experiment No: 9'
+description: 'Implementation of set operators, nested queries and join queries.'
+category: ' Database Management Systems Lab'
+date: '2025-09-04T01:32:34.657Z'
+---
+## AIM
+
+Consider the schema for MovieDatabase:
+
+- ACTOR (Act_id, Act_Name, Act_Gender)
+- DIRECTOR (Dir_id, Dir _Name, Dir_ Phone)
+- MOVIES (Mov_id, Mov_Title, Mov_Year, Mov_Lang, Dir _id)
+- MOVIE_CAST (Act_id, Mov_id, Role) 
+- RATING (Mov_id, Rev_Stars)
+
+Write SQL queries to
+
+1. ﻿﻿﻿List the titles of all movies directed by 'Hitchcock'.
+1. ﻿﻿﻿Find the movie names where one or more actors acted in two or more movies.
+1. ﻿﻿﻿List all actors who acted in a movie before 2000 and also in a movieafter 2015 (useJOlN operation).
+1. ﻿﻿﻿Find the title of movies and number of stars for each movie that has at least one rating and find the highest number of stars that movie received. Sort the result by movie title.
+1. ﻿﻿﻿Update rating of all movies directed by 'Steven Spielberg' to 5.
+
+## COMMANDS
+
+### Create tables
+
+- Create *Actor* table
+
+```sql
+CREATE TABLE Actor (
+    Act_Id INT PRIMARY KEY,
+    Act_Name VARCHAR2(25),
+    Act_Gender CHAR(1)
+);
+```
+
+- Create *Director* table
+
+```sql
+CREATE TABLE Director (
+    Dir_Id INT PRIMARY KEY,
+    Dir_Name VARCHAR(25),
+    Dir_Phone VARCHAR(15)
+);
+```
+
+- Create *Movies* table
+
+```sql
+CREATE TABLE Movies (
+    Mov_Id INT PRIMARY KEY,
+    Mov_Title VARCHAR(100),
+    Mov_Year NUMBER(4),
+    Mov_Lang VARCHAR(20),
+    Dir_Id INT REFERENCES Director(Dir_Id)
+);
+
+```
+
+- Create *Movie_Cast* table
+
+```sql
+CREATE TABLE Movie_Cast (
+    Act_Id INT REFERENCES Actor(Act_Id),
+    Mov_Id INT REFERENCES Movies(Mov_Id),
+    Role VARCHAR(50),
+    PRIMARY KEY (Act_Id, Mov_Id)
+);
+
+```
+
+- Create *Rating* table
+
+```sql
+CREATE TABLE Rating (
+    Mov_Id INT REFERENCES Movies(Mov_Id),
+    Rev_Stars NUMBER(1)
+);
+
+```
+
+### Add sample data
+
+```sql
+-- Directors
+INSERT INTO Director VALUES (1, 'Alfred Hitchcock', '111-1111');
+INSERT INTO Director VALUES (2, 'Steven Spielberg', '222-2222');
+INSERT INTO Director VALUES (3, 'Christopher Nolan', '333-3333');
+
+-- Actors
+INSERT INTO Actor VALUES (1, 'Leonardo DiCaprio', 'M');
+INSERT INTO Actor VALUES (2, 'Joseph Gordon-Levitt', 'M');
+INSERT INTO Actor VALUES (3, 'Meryl Streep', 'F');
+INSERT INTO Actor VALUES (4, 'Tom Hanks', 'M');
+INSERT INTO Actor VALUES (5, 'Natalie Portman', 'F');
+
+-- Movies
+INSERT INTO Movies VALUES (1, 'Psycho', 1960, 'English', 1);
+INSERT INTO Movies VALUES (2, 'Rear Window', 1954, 'English', 1);
+INSERT INTO Movies VALUES (3, 'Jurassic Park', 1993, 'English', 2);
+INSERT INTO Movies VALUES (4, 'The Post', 2017, 'English', 2);
+INSERT INTO Movies VALUES (5, 'Inception', 2010, 'English', 3);
+INSERT INTO Movies VALUES (6, 'Interstellar', 2014, 'English', 3);
+
+-- Movie Cast
+INSERT INTO Movie_Cast VALUES (1, 5, 'Cobb');
+INSERT INTO Movie_Cast VALUES (1, 6, 'Cooper');
+INSERT INTO Movie_Cast VALUES (2, 5, 'Arthur');
+INSERT INTO Movie_Cast VALUES (3, 3, 'Character A');
+INSERT INTO Movie_Cast VALUES (3, 4, 'Character B');
+INSERT INTO Movie_Cast VALUES (4, 3, 'Character C');
+INSERT INTO Movie_Cast VALUES (4, 4, 'Character D');
+INSERT INTO Movie_Cast VALUES (5, 6, 'Murph');
+
+-- Ratings
+INSERT INTO Rating VALUES (1, 5);
+INSERT INTO Rating VALUES (1, 4);
+INSERT INTO Rating VALUES (3, 4);
+INSERT INTO Rating VALUES (5, 5);
+INSERT INTO Rating VALUES (6, 4);
+```
+
+### Queries
+
+1. List the titles of all movies directed by "Hitchcock"
+
+```sql
+SELECT Mov_Title
+FROM Movies M
+JOIN Director D ON M.Dir_Id = D.Dir_Id
+WHERE D.Dir_Name = 'Alfred Hitchcock';
+```
+
+1. Find the movie names where one or more actors acted in two or more movies
+
+```sql
+SELECT DISTINCT M.Mov_Title
+FROM Movies M
+JOIN Movie_Cast MC ON M.Mov_Id = MC.Mov_Id
+WHERE MC.Act_Id IN (
+    SELECT Act_Id
+    FROM Movie_Cast
+    GROUP BY Act_Id
+    HAVING COUNT(Mov_Id) >= 2
+);
+```
+
+1. List all actors who acted in a movie before 2000 and also in a movie after 2015(use JOIN operation). 
+
+```sql
+SELECT DISTINCT A.Act_Name
+FROM Actor A
+JOIN Movie_Cast MC1 ON A.Act_Id = MC1.Act_Id
+JOIN Movies M1 ON MC1.Mov_Id = M1.Mov_Id
+JOIN Movie_Cast MC2 ON A.Act_Id = MC2.Act_Id
+JOIN Movies M2 ON MC2.Mov_Id = M2.Mov_Id
+WHERE M1.Mov_Year < 2000
+  AND M2.Mov_Year > 2015;
+```
+
+1. Find the title of movies and number of stars for each movie that has at least one rating and find the highest number of stars that movie received. Sort the result by movie title 
+
+```sql
+SELECT M.Mov_Title,
+       COUNT(R.Rev_Stars) AS Num_Ratings,
+       MAX(R.Rev_Stars) AS Highest_Rating
+FROM Movies M
+JOIN Rating R ON M.Mov_Id = R.Mov_Id
+GROUP BY M.Mov_Title
+ORDER BY M.Mov_Title;
+```
+
+1. Update rating of all movies directed by "Steven Spielberg" to 5 
+
+```sql
+UPDATE Rating
+SET Rev_Stars = 5
+WHERE Mov_Id IN (
+    SELECT M.Mov_Id
+    FROM Movies M
+    JOIN Director D ON M.Dir_Id = D.Dir_Id
+    WHERE D.Dir_Name = 'Steven Spielberg'
+);
+```

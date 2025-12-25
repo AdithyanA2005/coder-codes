@@ -1,0 +1,25 @@
+---
+title: Print N fibonacci terms
+description: ''
+category: Operating Systems Lab
+date: '2025-09-04T00:50:04.899Z'
+---
+## Program
+
+```bash
+#!/bin/bash
+
+read -p "Enter number of terms: " num
+
+a=0
+b=1
+
+echo -n "The series: "
+for ((i = 0; i < num; i++)); do
+  echo -n "$a "
+  next=$((a + b))
+  a=$b
+  b=$next
+done
+```
+

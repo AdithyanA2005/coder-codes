@@ -1,0 +1,33 @@
+---
+title: Prime number checker
+description: ''
+category: Operating Systems Lab
+date: '2025-09-04T00:47:11.581Z'
+---
+## Program
+
+```bash
+#!/bin/bash
+
+read -p "Enter a number: " num
+
+isPrime=1
+
+if [ $num -le 1 ]; then
+  isPrime=0
+else
+  for ((i = 2; i < num; i++)); do
+    if [ $((num % i)) -eq 0 ]; then
+      isPrime=0
+      break
+    fi
+  done
+fi
+
+if [$isPrime -eq 1]; then
+  echo "$num is a prime number"
+else
+  echo "$num is not a prime number"
+fi
+```
+

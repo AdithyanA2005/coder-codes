@@ -1,0 +1,225 @@
+---
+title: 'Experiment No: 7'
+description: Implementation of various aggregate functions in SQL.
+category: ' Database Management Systems Lab'
+date: '2025-09-06T17:00:18.961Z'
+---
+## AIM
+
+Create the tables with the following fields:
+
+- FACULTY (FacultyCode, FacultyName)
+- SUBJECT (SubjectCode, SubjectName, MaxMark, FacultyCode)
+- STUDENT (StudentCode, StudentName, DOB, StudentsBranch(CS/EC/EE/ME), AdmissionDate)
+- M_MARK (StudentCode, SubjectCode, Mark)
+
+Do the following queries:
+
+1. Display the number of faculties.
+1. Display the total mark for each student.
+1. Display the subject average mark for each subject.
+1. Display the name of subjects for which at-least one student got below 40%.
+1. Display the name, subject and percentage of mark who got below 40%.
+1. Display the faculties and allotted subjects for each faculty.
+1. Display the name of faculties who take more than one subject.
+1. Display name, subject, mark, % of mark in ascending order of mark.
+
+## COMMANDS
+
+### Create tables
+
+```sql
+CREATE TABLE Faculty (
+    FacultyCode INT PRIMARY KEY,
+    FacultyName VARCHAR(15) NOT NULL
+);
+
+CREATE TABLE Subject (
+    SubjectCode INT PRIMARY KEY,
+    SubjectName VARCHAR(15) NOT NULL,
+    MaxMark INT NOT NULL,
+    FacultyCode INT,
+    FOREIGN KEY (FacultyCode) REFERENCES Faculty(FacultyCode)
+);
+
+CREATE TABLE Student (
+    StudentCode INT PRIMARY KEY,
+    StudentName VARCHAR(15) NOT NULL,
+    DOB DATE,
+    StudentsBranch VARCHAR(10) CHECK (StudentsBranch IN ('CS','EC','EE','ME')),
+    AdmissionDate DATE
+);
+
+CREATE TABLE M_Mark (
+    StudentCode INT,
+    SubjectCode INT,
+    Mark INT,
+    PRIMARY KEY (StudentCode, SubjectCode),
+    FOREIGN KEY (StudentCode) REFERENCES Student(StudentCode),
+    FOREIGN KEY (SubjectCode) REFERENCES Subject(SubjectCode)
+);
+```
+
+### Insert data into tables
+
+```sql
+-- Faculty 
+INSERT INTO Faculty VALUES (1, 'Dr. Sharma');
+INSERT INTO Faculty VALUES (2, 'Mrs. Gupta');
+INSERT INTO Faculty VALUES (3, 'Mr. Ramesh');
+INSERT INTO Faculty VALUES (4, 'Ms. Iyer');
+INSERT INTO Faculty VALUES (5, 'Mr. Khan');
+
+-- Subject
+INSERT INTO Subject VALUES (101, 'Physics', 100, 1);
+INSERT INTO Subject VALUES (102, 'Chemistry', 100, 2);
+INSERT INTO Subject VALUES (103, 'Mathematics', 100, 1);
+INSERT INTO Subject VALUES (104, 'English', 100, 4);
+INSERT INTO Subject VALUES (105, 'Computer', 100, 5);
+
+-- Student
+INSERT INTO Student VALUES (1001, 'Rahul Verma', '12-May-07', 'CS', '01-Jun-23');
+INSERT INTO Student VALUES (1002, 'Anjali Nair', '20-Aug-07', 'EC', '01-Jun-23');
+INSERT INTO Student VALUES (1003, 'Vikram Singh', '15-Jan-07', 'EE', '01-Jun-23');
+INSERT INTO Student VALUES (1004, 'Sneha Patel', '02-Nov-07', 'ME', '01-Jun-23');
+
+-- Marks 
+-- Rahul (CS Branch)
+INSERT INTO M_Mark VALUES (1001, 101, 92);
+INSERT INTO M_Mark VALUES (1001, 102, 88);
+INSERT INTO M_Mark VALUES (1001, 103, 95);
+INSERT INTO M_Mark VALUES (1001, 104, 85);
+
+-- Anjali (EC Branch)
+INSERT INTO M_Mark VALUES (1002, 101, 85);
+INSERT INTO M_Mark VALUES (1002, 102, 91);
+INSERT INTO M_Mark VALUES (1002, 103, 78);
+INSERT INTO M_Mark VALUES (1002, 104, 88);
+INSERT INTO M_Mark VALUES (1002, 105, 20);
+
+-- Vikram (EE Branch)
+INSERT INTO M_Mark VALUES (1003, 101, 75);
+INSERT INTO M_Mark VALUES (1003, 102, 82);
+INSERT INTO M_Mark VALUES (1003, 103, 70);
+INSERT INTO M_Mark VALUES (1003, 104, 90);
+INSERT INTO M_Mark VALUES (1003, 105, 65);
+
+-- Sneha (ME Branch)
+INSERT INTO M_Mark VALUES (1004, 101, 95);
+INSERT INTO M_Mark VALUES (1004, 102, 89);
+INSERT INTO M_Mark VALUES (1004, 103, 92);
+INSERT INTO M_Mark VALUES (1004, 104, 24);
+INSERT INTO M_Mark VALUES (1004, 105, 87);
+```
+
+### Queries
+
+1. Display the number of faculties.
+
+```sql
+SELECT COUNT(*) AS NoOfFaculties
+FROM Faculty;
+
+```
+
+1. Display the total mark for each student.
+
+```sql
+SELECT 
+    s.StudentCode,
+    s.StudentName,
+    SUM(m.Mark) AS TotalMarks
+FROM 
+    Student s
+JOIN 
+    M_Mark m ON s.StudentCode = m.StudentCode
+GROUP BY 
+    s.StudentCode, s.StudentName;
+```
+
+1. Display the subject average mark for each subject.
+
+```sql
+SELECT 
+    Subject.SubjectName,
+    AVG(M_Mark.Mark) AS AverageMark
+FROM 
+    Subject
+JOIN 
+    M_Mark ON Subject.SubjectCode = M_Mark.SubjectCode
+GROUP BY 
+    Subject.SubjectName;
+```
+
+1. Display the name of subjects for which at-least one student got below 40%.
+
+```sql
+SELECT DISTINCT s.SubjectName
+FROM Subject s
+JOIN M_Mark m ON s.SubjectCode = m.SubjectCode
+WHERE m.Mark < (0.4 * s.MaxMark);
+```
+
+1. Display the name, subject and percentage of mark who got below 40%.
+
+```sql
+SELECT 
+    st.StudentName,
+    sb.SubjectName,
+    (m.Mark * 100.0 / sb.MaxMark) AS Percentage
+FROM 
+    Student st
+JOIN 
+    M_Mark m ON st.StudentCode = m.StudentCode
+JOIN 
+    Subject sb ON m.SubjectCode = sb.SubjectCode
+WHERE 
+    (m.Mark * 100.0 / sb.MaxMark) < 40;
+```
+
+1. Display the faculties and allotted subjects for each faculty.
+
+```sql
+SELECT 
+    f.FacultyName,
+    s.SubjectName
+FROM 
+    Faculty f
+JOIN 
+    Subject s ON f.FacultyCode = s.FacultyCode;
+```
+
+1. Display the name of faculties who take more than one subject.
+
+```sql
+SELECT 
+    f.FacultyName,
+    COUNT(s.SubjectCode) AS NoOfSubjects
+FROM 
+    Faculty f
+JOIN 
+    Subject s ON f.FacultyCode = s.FacultyCode
+GROUP BY 
+    f.FacultyName
+HAVING 
+    COUNT(s.SubjectCode) > 1;
+```
+
+1. Display name, subject, mark, % of mark in ascending order of mark.
+
+```sql
+SELECT 
+    st.StudentName,
+    sb.SubjectName,
+    m.Mark,
+    (m.Mark * 100.0 / sb.MaxMark) AS Percentage
+FROM 
+    Student st
+JOIN 
+    M_Mark m ON st.StudentCode = m.StudentCode
+JOIN 
+    Subject sb ON m.SubjectCode = sb.SubjectCode
+ORDER BY 
+    m.Mark ASC;
+```
+
