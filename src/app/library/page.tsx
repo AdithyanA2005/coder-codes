@@ -20,7 +20,7 @@ export default function PostsPage() {
       <div className="fixed inset-0 -z-40 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-900/80 via-black to-black" />
       <div className="fixed top-0 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-cyan-500/10 opacity-30 blur-[100px]" />
 
-      <PostsHeader />
+      <PostsHeader count={posts.length} />
       <CategoryBar categories={categories} />
       <ResourcesGrid posts={posts} />
     </main>
