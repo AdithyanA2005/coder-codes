@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRightIcon, Sparkles } from "lucide-react";
 import * as motion from "motion/react-client";
@@ -27,6 +28,34 @@ const itemVariants = {
 };
 
 export function AnimatedGrid({ posts, categories }: { posts: any[]; categories: any[] }) {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollContainerRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
+    setScrollLeft(scrollContainerRef.current.scrollLeft);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollContainerRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollContainerRef.current.offsetLeft;
+    const walk = (x - startX) * 2; // Scroll-fast
+    scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+  };
+
   return (
     <div className="relative z-10 mx-auto max-w-7xl px-6 pb-40" id="posts">
       {/* Section Header */}
@@ -39,17 +68,27 @@ export function AnimatedGrid({ posts, categories }: { posts: any[]; categories: 
 
       {/* Categories Scroller */}
       <motion.div
+        ref={scrollContainerRef}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="scrollbar-hide mb-16 overflow-x-auto pb-4"
+        className={`scrollbar-hide mb-16 overflow-x-auto pb-4 ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
+        onMouseDown={handleMouseDown}
+        onMouseLeave={handleMouseLeave}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
       >
         <div className="flex min-w-max justify-center gap-3 px-4">
           {categories.map((category) => (
             <Link
               key={category.slug}
               href={`/categories/${category.slug}`}
-              className="group relative flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-medium text-zinc-300 backdrop-blur-md transition-all hover:border-cyan-500/50 hover:bg-cyan-950/30 hover:text-cyan-200 hover:shadow-[0_0_15px_rgba(6,182,212,0.2)] active:scale-95"
+              onClick={(e) => {
+                // Prevent click if we were dragging
+                if (isDragging) e.preventDefault();
+              }}
+              draggable={false} // Prevent native drag
+              className="group relative flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-medium text-zinc-300 backdrop-blur-md transition-all select-none hover:border-cyan-500/50 hover:bg-cyan-950/30 hover:text-cyan-200 hover:shadow-[0_0_15px_rgba(6,182,212,0.2)] active:scale-95"
             >
               <span className="relative z-10">{category.title}</span>
               <div className="absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-cyan-500/0 via-cyan-500/10 to-purple-500/0 opacity-0 transition-opacity group-hover:opacity-100" />
