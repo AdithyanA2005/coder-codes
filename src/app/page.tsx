@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { AnimatedGrid } from "@/components/home/animated-grid";
+import { Hero } from "@/components/home/hero";
 import { getAllPosts, getAllCategories } from "@/lib/mdx";
 
 export default async function Page() {
@@ -6,39 +7,18 @@ export default async function Page() {
   const categories = getAllCategories();
 
   return (
-    <main className="container mx-auto px-4 py-12">
-      <div className="mb-8">
-        <h1 className="mb-6 text-4xl font-bold">Coder Codes</h1>
+    <main className="relative min-h-screen selection:bg-cyan-500/30">
+      {/* Global Background Effects - Visible across Hero and Grid */}
+      <div className="fixed inset-0 -z-50 bg-black" />
+      <div className="fixed inset-0 -z-40 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-900/80 via-black to-black" />
+      <div className="fixed top-0 right-0 -z-30 h-[800px] w-[800px] rounded-full bg-cyan-500/15 opacity-40 blur-[120px]" />
+      <div className="fixed bottom-0 left-0 -z-30 h-[800px] w-[800px] rounded-full bg-violet-600/15 opacity-40 blur-[120px]" />
 
-        <div className="flex flex-wrap gap-2">
-          {categories.map((category) => (
-            <Link
-              key={category.slug}
-              href={`/categories/${category.slug}`}
-              className="rounded-full border border-zinc-200 bg-zinc-50 px-4 py-1.5 text-sm font-medium transition-colors hover:bg-zinc-100 hover:text-black dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800"
-            >
-              {category.title}
-            </Link>
-          ))}
-        </div>
-      </div>
+      {/* Helper grid for texture */}
+      <div className="fixed inset-0 -z-20 bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] bg-center" />
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {posts.map((post) => (
-          <Link
-            key={post.slug}
-            href={`/posts/${post.slug}`}
-            className="block rounded-lg border border-zinc-200 bg-white p-6 transition-colors hover:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-900"
-          >
-            <h2 className="mb-2 text-xl font-semibold">{post.frontmatter.title}</h2>
-            <p className="mb-4 line-clamp-2 text-gray-500">{post.frontmatter.description}</p>
-            <div className="flex justify-between text-sm text-gray-400">
-              <span>{post.frontmatter.category}</span>
-              <time dateTime={post.frontmatter.date}>{new Date(post.frontmatter.date).toLocaleDateString()}</time>
-            </div>
-          </Link>
-        ))}
-      </div>
+      <Hero />
+      <AnimatedGrid posts={posts} categories={categories} />
     </main>
   );
 }
