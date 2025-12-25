@@ -1,18 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import * as motion from "motion/react-client";
 
 export function Hero() {
   return (
-    <section className="relative mt-14 overflow-hidden py-24 sm:py-32">
+    <section className="relative overflow-hidden pt-40 pb-24 sm:pt-48 sm:pb-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35, ease: "easeOut" }}
-          className="mx-auto max-w-2xl text-center"
-        >
+        <div className="mx-auto max-w-2xl text-center">
           <h1 className="bg-gradient-to-r from-cyan-400 via-violet-400 to-fuchsia-400 bg-clip-text text-5xl font-extrabold tracking-tight text-transparent sm:text-7xl">
             Code, Simplified.
           </h1>
@@ -20,12 +14,7 @@ export function Hero() {
             A comprehensive collection of KTU BTech CS lab programs. <br className="hidden sm:inline" />
             Designed for clarity, performance, and ease of use.
           </p>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.1, duration: 0.4 }}
-            className="mt-10 flex items-center justify-center gap-x-6"
-          >
+          <div className="mt-10 flex items-center justify-center gap-x-6">
             <Link
               href="/posts"
               className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-black shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-transform hover:scale-105 hover:bg-zinc-100"
@@ -39,8 +28,8 @@ export function Hero() {
             >
               View on GitHub <span aria-hidden="true">→</span>
             </Link>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );
