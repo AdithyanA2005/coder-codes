@@ -4,41 +4,13 @@ import Link from "next/link";
 import { ArrowRightIcon, Sparkles } from "lucide-react";
 import * as motion from "motion/react-client";
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.05,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.3,
-      ease: "easeOut" as const,
-    },
-  },
-};
-
 export function ResourcesGrid({ posts }: { posts: any[] }) {
   return (
     <div className="relative z-10 mx-auto max-w-7xl px-6 pb-20" id="resources">
       {/* Posts Grid */}
-      <motion.div
-        className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-        variants={containerVariants}
-        initial="hidden"
-        animate="show"
-      >
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => (
-          <motion.div key={post.slug} variants={itemVariants}>
+          <div key={post.slug}>
             <Link
               href={`/posts/${post.slug}`}
               className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-6 backdrop-blur-sm transition-all hover:border-cyan-500/30 hover:bg-zinc-900/80 hover:shadow-lg hover:shadow-cyan-900/10"
@@ -74,9 +46,9 @@ export function ResourcesGrid({ posts }: { posts: any[] }) {
                 <ArrowRightIcon className="size-4 text-zinc-500 transition-transform group-hover:translate-x-1 group-hover:text-cyan-400" />
               </div>
             </Link>
-          </motion.div>
+          </div>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 }

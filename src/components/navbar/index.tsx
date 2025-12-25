@@ -2,17 +2,11 @@
 
 import Link from "next/link";
 import { Github } from "lucide-react";
-import * as motion from "motion/react-client";
 import { Logo } from "@/components/logo";
 
 export function Navbar() {
   return (
-    <motion.nav
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} // smooth spring-like ease
-      className="fixed inset-x-0 top-3 z-50 mx-auto w-[95%] max-w-4xl sm:top-6"
-    >
+    <nav className="fixed inset-x-0 top-3 z-50 mx-auto w-[95%] max-w-4xl sm:top-6">
       <div className="group relative flex items-center justify-between rounded-full border border-white/5 bg-zinc-900/60 px-4 py-2.5 shadow-[0_4px_30px_rgba(0,0,0,0.4)] backdrop-blur-2xl transition-all hover:bg-zinc-900/80 hover:shadow-[0_8px_40px_rgba(6,182,212,0.1)] hover:ring-1 hover:ring-cyan-500/20 sm:px-6 sm:py-3">
         {/* Glow effect */}
         <div className="absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-cyan-500/0 via-cyan-500/5 to-purple-500/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
@@ -38,7 +32,7 @@ export function Navbar() {
           </Link>
         </div>
       </div>
-    </motion.nav>
+    </nav>
   );
 }
 

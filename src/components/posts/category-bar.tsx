@@ -39,12 +39,7 @@ export function CategoryBar({ categories }: { categories: Category[] }) {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.1 }}
-      className="mb-8 flex justify-center sm:mb-12"
-    >
+    <div className="mb-8 flex justify-center sm:mb-12">
       <div
         ref={scrollContainerRef}
         className={`scrollbar-hide -mx-6 flex w-full max-w-4xl overflow-x-auto px-6 pb-4 md:mx-auto md:justify-center md:px-0 ${
@@ -71,6 +66,6 @@ export function CategoryBar({ categories }: { categories: Category[] }) {
           ))}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
