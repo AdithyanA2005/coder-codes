@@ -9,7 +9,7 @@ export function Footer() {
     explore: [
       { name: "Home", href: "/" },
       { name: "Library", href: "/posts" },
-      { name: "All Categories", href: "/#categories" },
+      { name: "All Categories", href: "/categories" },
     ],
     connect: [
       { name: "GitHub", href: "https://github.com/AdithyanA2005/", icon: Github },
