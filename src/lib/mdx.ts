@@ -40,3 +40,29 @@ export function getAllPosts(): Post[] {
     .sort((post1, post2) => (post1.frontmatter.date > post2.frontmatter.date ? -1 : 1));
   return posts;
 }
+
+export function slugify(text: string) {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-") // Replace spaces with -
+    .replace(/[^\w\-]+/g, "") // Remove all non-word chars
+    .replace(/\-\-+/g, "-"); // Replace multiple - with single -
+}
+
+export function getAllCategories() {
+  const posts = getAllPosts();
+  const categories = new Set(posts.map((post) => post.frontmatter.category).filter(Boolean));
+  return Array.from(categories)
+    .map((title) => ({
+      title,
+      slug: slugify(title),
+    }))
+    .sort((a, b) => a.title.localeCompare(b.title));
+}
+
+export function getPostsByCategorySlug(slug: string): Post[] {
+  const posts = getAllPosts();
+  return posts.filter((post) => slugify(post.frontmatter.category) === slug);
+}

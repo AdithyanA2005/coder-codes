@@ -1,26 +1,38 @@
 import Link from "next/link";
-import { getAllPosts, getAllCategories } from "@/lib/mdx";
+import { notFound } from "next/navigation";
+import { getAllCategories, getPostsByCategorySlug } from "@/lib/mdx";
 
-export default async function Page() {
-  const posts = getAllPosts();
+interface CategoryPageProps {
+  params: Promise<{
+    slug: string;
+  }>;
+}
+
+export async function generateStaticParams() {
   const categories = getAllCategories();
+  return categories.map((category) => ({
+    slug: category.slug,
+  }));
+}
+
+export default async function CategoryPage({ params }: CategoryPageProps) {
+  const { slug } = await params;
+  const posts = getPostsByCategorySlug(slug);
+
+  if (posts.length === 0) {
+    notFound();
+  }
+
+  const categoryTitle = posts[0].frontmatter.category;
 
   return (
     <main className="container mx-auto px-4 py-12">
-      <div className="mb-8">
-        <h1 className="mb-6 text-4xl font-bold">Coder Codes</h1>
-
-        <div className="flex flex-wrap gap-2">
-          {categories.map((category) => (
-            <Link
-              key={category.slug}
-              href={`/categories/${category.slug}`}
-              className="rounded-full border border-zinc-200 bg-zinc-50 px-4 py-1.5 text-sm font-medium transition-colors hover:bg-zinc-100 hover:text-black dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800"
-            >
-              {category.title}
-            </Link>
-          ))}
-        </div>
+      <div className="mb-12">
+        <Link href="/" className="mb-4 inline-block text-sm text-gray-500 hover:text-gray-900 dark:hover:text-gray-100">
+          ← Back to all posts
+        </Link>
+        <h1 className="text-4xl font-bold">{categoryTitle}</h1>
+        <p className="mt-2 text-gray-500">{posts.length} posts</p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
