@@ -10,18 +10,19 @@ const containerVariants = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1, // Delay between each card showing up
+      staggerChildren: 0.05,
+      delayChildren: 0.2, // Wait for Hero to pop in first
     },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 20 },
   show: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.4,
+      duration: 0.3,
       ease: "easeOut",
     },
   },
@@ -59,12 +60,17 @@ export function AnimatedGrid({ posts, categories }: { posts: any[]; categories: 
   return (
     <div className="relative z-10 mx-auto max-w-7xl px-6 pb-40" id="posts">
       {/* Section Header */}
-      <div className="mb-12 text-center">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="mb-12 text-center"
+      >
         <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
           Latest <span className="text-cyan-400">Resources</span>
         </h2>
         <p className="mt-4 text-zinc-400">Filter by category or browse the latest lab programs below.</p>
-      </div>
+      </motion.div>
 
       {/* Categories Scroller */}
       <motion.div
