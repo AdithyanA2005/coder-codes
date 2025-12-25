@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { PostCard } from "@/components/posts/post-card";
 import { getAllCategories, getPostsByCategorySlug } from "@/lib/mdx";
 
 interface CategoryPageProps {
@@ -26,7 +27,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   const categoryTitle = posts[0].frontmatter.category;
 
   return (
-    <main className="container mx-auto px-4 py-12">
+    <main className="container mx-auto px-4 pt-32 pb-20">
       <div className="mb-12">
         <Link
           href="/categories"
@@ -40,20 +41,9 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {posts.map((post) => (
-          <Link
-            key={post.slug}
-            href={`/posts/${post.slug}`}
-            className="group block rounded-xl border border-white/10 bg-zinc-900/40 p-6 backdrop-blur-sm transition-all hover:border-cyan-500/30 hover:bg-zinc-900/80 hover:shadow-lg hover:shadow-cyan-900/10"
-          >
-            <h2 className="mb-2 text-xl font-semibold text-zinc-100 transition-colors group-hover:text-cyan-400">
-              {post.frontmatter.title}
-            </h2>
-            <p className="mb-4 line-clamp-2 text-zinc-400">{post.frontmatter.description}</p>
-            <div className="flex justify-between text-sm text-zinc-500">
-              <span className="text-cyan-500/80">{post.frontmatter.category}</span>
-              <time dateTime={post.frontmatter.date}>{new Date(post.frontmatter.date).toLocaleDateString()}</time>
-            </div>
-          </Link>
+          <div key={post.slug} className="h-full">
+            <PostCard post={post} hideCategory={true} />
+          </div>
         ))}
       </div>
     </main>
