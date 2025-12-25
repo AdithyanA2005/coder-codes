@@ -1,7 +1,5 @@
-"use client";
-
 import Link from "next/link";
-import { Github } from "lucide-react";
+import { GithubIcon } from "lucide-react";
 import { Logo } from "@/components/logo";
 
 export function Navbar() {
@@ -27,7 +25,7 @@ export function Navbar() {
             aria-label="GitHub"
             className="flex items-center gap-2 rounded-full bg-white/5 p-2 text-sm font-medium text-zinc-300 transition-colors hover:bg-white/10 hover:text-white sm:px-3 sm:py-1.5"
           >
-            <Github className="size-4 sm:size-3.5" />
+            <GithubIcon className="size-4 sm:size-3.5" />
             <span className="hidden sm:inline">Star</span>
           </Link>
         </div>
