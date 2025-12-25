@@ -27,7 +27,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   const categoryTitle = posts[0].frontmatter.category;
 
   return (
-    <main className="container mx-auto px-4 pt-32 pb-20">
+    <main className="mx-auto max-w-7xl px-6 pt-32 pb-20">
       <div className="mb-12">
         <Link
           href="/categories"
