@@ -1,32 +1,33 @@
 ---
-title: 'Experiment No: 9'
-description: 'Implementation of set operators, nested queries and join queries.'
-category: ' Database Management Systems Lab'
-date: '2025-09-04T01:32:34.657Z'
+title: "Experiment No: 9"
+description: "Implementation of set operators, nested queries and join queries."
+category: " Database Management Systems Lab"
+date: "2025-09-04T01:32:34.657Z"
 ---
+
 ## AIM
 
 Consider the schema for MovieDatabase:
 
 - ACTOR (Act_id, Act_Name, Act_Gender)
-- DIRECTOR (Dir_id, Dir _Name, Dir_ Phone)
-- MOVIES (Mov_id, Mov_Title, Mov_Year, Mov_Lang, Dir _id)
-- MOVIE_CAST (Act_id, Mov_id, Role) 
+- DIRECTOR (Dir*id, Dir \_Name, Dir* Phone)
+- MOVIES (Mov_id, Mov_Title, Mov_Year, Mov_Lang, Dir \_id)
+- MOVIE_CAST (Act_id, Mov_id, Role)
 - RATING (Mov_id, Rev_Stars)
 
 Write SQL queries to
 
-1. ﻿﻿﻿List the titles of all movies directed by 'Hitchcock'.
-1. ﻿﻿﻿Find the movie names where one or more actors acted in two or more movies.
-1. ﻿﻿﻿List all actors who acted in a movie before 2000 and also in a movieafter 2015 (useJOlN operation).
-1. ﻿﻿﻿Find the title of movies and number of stars for each movie that has at least one rating and find the highest number of stars that movie received. Sort the result by movie title.
-1. ﻿﻿﻿Update rating of all movies directed by 'Steven Spielberg' to 5.
+1. List the titles of all movies directed by 'Hitchcock'.
+2. Find the movie names where one or more actors acted in two or more movies.
+3. List all actors who acted in a movie before 2000 and also in a movieafter 2015 (useJOlN operation).
+4. Find the title of movies and number of stars for each movie that has at least one rating and find the highest number of stars that movie received. Sort the result by movie title.
+5. Update rating of all movies directed by 'Steven Spielberg' to 5.
 
 ## COMMANDS
 
 ### Create tables
 
-- Create *Actor* table
+- Create _Actor_ table
 
 ```sql
 CREATE TABLE Actor (
@@ -36,7 +37,7 @@ CREATE TABLE Actor (
 );
 ```
 
-- Create *Director* table
+- Create _Director_ table
 
 ```sql
 CREATE TABLE Director (
@@ -46,7 +47,7 @@ CREATE TABLE Director (
 );
 ```
 
-- Create *Movies* table
+- Create _Movies_ table
 
 ```sql
 CREATE TABLE Movies (
@@ -59,7 +60,7 @@ CREATE TABLE Movies (
 
 ```
 
-- Create *Movie_Cast* table
+- Create _Movie_Cast_ table
 
 ```sql
 CREATE TABLE Movie_Cast (
@@ -71,7 +72,7 @@ CREATE TABLE Movie_Cast (
 
 ```
 
-- Create *Rating* table
+- Create _Rating_ table
 
 ```sql
 CREATE TABLE Rating (
@@ -133,7 +134,7 @@ JOIN Director D ON M.Dir_Id = D.Dir_Id
 WHERE D.Dir_Name = 'Alfred Hitchcock';
 ```
 
-1. Find the movie names where one or more actors acted in two or more movies
+2. Find the movie names where one or more actors acted in two or more movies
 
 ```sql
 SELECT DISTINCT M.Mov_Title
@@ -147,7 +148,7 @@ WHERE MC.Act_Id IN (
 );
 ```
 
-1. List all actors who acted in a movie before 2000 and also in a movie after 2015(use JOIN operation). 
+3. List all actors who acted in a movie before 2000 and also in a movie after 2015(use JOIN operation).
 
 ```sql
 SELECT DISTINCT A.Act_Name
@@ -160,7 +161,7 @@ WHERE M1.Mov_Year < 2000
   AND M2.Mov_Year > 2015;
 ```
 
-1. Find the title of movies and number of stars for each movie that has at least one rating and find the highest number of stars that movie received. Sort the result by movie title 
+4. Find the title of movies and number of stars for each movie that has at least one rating and find the highest number of stars that movie received. Sort the result by movie title
 
 ```sql
 SELECT M.Mov_Title,
@@ -172,7 +173,7 @@ GROUP BY M.Mov_Title
 ORDER BY M.Mov_Title;
 ```
 
-1. Update rating of all movies directed by "Steven Spielberg" to 5 
+5. Update rating of all movies directed by "Steven Spielberg" to 5
 
 ```sql
 UPDATE Rating
