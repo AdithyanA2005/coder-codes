@@ -73,6 +73,22 @@ export function getAllCategories() {
 }
 
 export function getPostsByCategorySlug(slug: string): Post[] {
-  const posts = getAllPosts();
-  return posts.filter((post) => slugify(post.frontmatter.category) === slug);
+  const slugs = getPostSlugs();
+  const posts: Post[] = [];
+
+  slugs.forEach((postSlug) => {
+    const fullPath = path.join(postsDirectory, `${postSlug}.mdx`);
+    const fileContents = fs.readFileSync(fullPath, "utf8");
+    const { data, content } = matter(fileContents);
+
+    if (slugify(data.category) === slug) {
+      posts.push({
+        slug: postSlug,
+        frontmatter: data as Post["frontmatter"],
+        content,
+      });
+    }
+  });
+
+  return posts.sort((post1, post2) => (post1.frontmatter.date > post2.frontmatter.date ? -1 : 1));
 }
