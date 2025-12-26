@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRightIcon, Sparkles } from "lucide-react";
+import { ArrowRightIcon, Tag } from "lucide-react";
 import type { Post } from "@/lib/mdx";
 
 interface ProgramCardProps {
@@ -17,7 +17,7 @@ export function ProgramCard({ post, hideCategory = false }: ProgramCardProps) {
         {!hideCategory && (
           <div className="mb-4 flex items-start justify-between gap-4">
             <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-cyan-500/20 bg-cyan-500/10 px-2.5 py-0.5 text-xs font-medium tracking-wide text-cyan-200 uppercase">
-              <Sparkles className="size-2.5" />
+              <Tag className="size-3" />
               {post.frontmatter.category}
             </span>
           </div>
