@@ -6,10 +6,10 @@ export function CategorySlugHeader({ title, count }: { title: string; count: num
           {count} Programs
         </span>
       </div>
-      <h1 className="bg-gradient-to-br from-white via-zinc-200 to-zinc-500 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl">
+      <h1 className="bg-gradient-to-br from-white via-zinc-200 to-zinc-500 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl lg:text-6xl">
         {title}
       </h1>
-      <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-zinc-400">
+      <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-zinc-400">
         Browse all optimized solutions available for this topic.
       </p>
     </div>

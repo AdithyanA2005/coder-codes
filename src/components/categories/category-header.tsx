@@ -6,10 +6,10 @@ export function CategoryHeader({ count }: { count: number }) {
           {count} Topics Available
         </span>
       </div>
-      <h1 className="bg-gradient-to-br from-white via-zinc-200 to-zinc-500 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-6xl">
+      <h1 className="bg-gradient-to-br from-white via-zinc-200 to-zinc-500 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl lg:text-6xl">
         Browse by Category
       </h1>
-      <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-zinc-400 sm:mt-6 sm:text-lg">
+      <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-zinc-400">
         Find the exact program you need by exploring our curated topics. <br className="hidden sm:inline" />
         From sorting algorithms to system calls.
       </p>
