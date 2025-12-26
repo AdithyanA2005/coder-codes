@@ -16,6 +16,34 @@ export async function generateStaticParams() {
   }));
 }
 
+export async function generateMetadata({ params }: CategoryPageProps) {
+  const { slug } = await params;
+  const posts = getPostsByCategorySlug(slug);
+
+  if (posts.length === 0) {
+    notFound();
+  }
+
+  const categoryName = posts[0].frontmatter.category;
+  const title = `${categoryName} Examples - CoderCodes`;
+  const description = `Explore ${posts.length} programming examples and lab solutions for ${categoryName}.`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  };
+}
+
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = await params;
   const posts = getPostsByCategorySlug(slug);

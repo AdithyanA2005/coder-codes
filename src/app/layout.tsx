@@ -16,6 +16,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://codercodes.vercel.app"),
   title: "CoderCodes - KTU CS Lab Programs",
   description:
     "A comprehensive collection of KTU BTech CS lab programs, simplified for clarity and performance. Built by Adithyan A.",

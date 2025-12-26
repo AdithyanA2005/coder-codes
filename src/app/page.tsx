@@ -8,6 +8,16 @@ import { Stats } from "@/components/landing/stats";
 export const metadata: Metadata = {
   title: "CoderCodes - KTU CS Lab Programs",
   description: "A comprehensive collection of KTU BTech CS lab programs, simplified for clarity and performance.",
+  openGraph: {
+    title: "CoderCodes - KTU CS Lab Programs",
+    description: "A comprehensive collection of KTU BTech CS lab programs, simplified for clarity and performance.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CoderCodes - KTU CS Lab Programs",
+    description: "A comprehensive collection of KTU BTech CS lab programs, simplified for clarity and performance.",
+  },
 };
 
 export default function Page() {

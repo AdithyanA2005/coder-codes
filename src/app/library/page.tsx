@@ -6,7 +6,17 @@ import { getAllPosts, getAllCategories } from "@/lib/mdx";
 
 export const metadata: Metadata = {
   title: "Library - CoderCodes",
-  description: "Browse our collection of KTU BTech CS lab programs.",
+  description: "Browse our comprehensive collection of KTU BTech CS lab programs.",
+  openGraph: {
+    title: "Library - CoderCodes",
+    description: "Browse our comprehensive collection of KTU BTech CS lab programs.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Library - CoderCodes",
+    description: "Browse our comprehensive collection of KTU BTech CS lab programs.",
+  },
 };
 
 export default function PostsPage() {

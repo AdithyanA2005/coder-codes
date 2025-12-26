@@ -22,6 +22,16 @@ export async function generateMetadata({ params }: PostPageProps) {
     return {
       title: frontmatter.title,
       description: frontmatter.description,
+      openGraph: {
+        title: frontmatter.title,
+        description: frontmatter.description,
+        type: "article",
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: frontmatter.title,
+        description: frontmatter.description,
+      },
     };
   } catch {
     notFound();
