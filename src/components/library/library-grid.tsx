@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { ArrowRightIcon, Sparkles } from "lucide-react";
+import type { Post } from "@/lib/mdx";
 import { ProgramCard } from "./program-card";
 
-export function ResourcesGrid({ posts }: { posts: any[] }) {
+export function ResourcesGrid({ posts }: { posts: Post[] }) {
   return (
     <div className="relative z-10 mx-auto max-w-7xl px-6 pb-20" id="resources">
       {/* Posts Grid */}

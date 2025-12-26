@@ -36,11 +36,21 @@ export function getPostBySlug(slug: string): Post {
 
 export function getAllPosts(): Post[] {
   const slugs = getPostSlugs();
+  const posts: Post[] = [];
 
-  // Return posts sorted by date in descending order
-  return slugs
-    .map((slug) => getPostBySlug(slug))
-    .sort((post1, post2) => (post1.frontmatter.date > post2.frontmatter.date ? -1 : 1));
+  slugs.forEach((slug) => {
+    const fullPath = path.join(postsDirectory, `${slug}.mdx`);
+    const fileContents = fs.readFileSync(fullPath, "utf8");
+    const { data } = matter(fileContents);
+
+    posts.push({
+      slug,
+      frontmatter: data as Post["frontmatter"],
+      content: "", // Content not needed for listing, saves memory
+    });
+  });
+
+  return posts.sort((post1, post2) => (post1.frontmatter.date > post2.frontmatter.date ? -1 : 1));
 }
 
 export function slugify(text: string) {
