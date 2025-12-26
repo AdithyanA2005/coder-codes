@@ -36,11 +36,11 @@ export function getPostBySlug(slug: string): Post {
 
 export function getAllPosts(): Post[] {
   const slugs = getPostSlugs();
-  const posts = slugs
+
+  // Return posts sorted by date in descending order
+  return slugs
     .map((slug) => getPostBySlug(slug))
-    // sort posts by date in descending order
     .sort((post1, post2) => (post1.frontmatter.date > post2.frontmatter.date ? -1 : 1));
-  return posts;
 }
 
 export function slugify(text: string) {
@@ -56,6 +56,7 @@ export function slugify(text: string) {
 export function getAllCategories() {
   const posts = getAllPosts();
   const categories = new Set(posts.map((post) => post.frontmatter.category).filter(Boolean));
+
   return Array.from(categories)
     .map((title) => ({
       title,
