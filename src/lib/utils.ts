@@ -3,13 +3,11 @@ import { Metadata } from "next";
 export function constructMetadata({
   title = "CoderCodes - KTU CS Lab Programs",
   description = "A comprehensive collection of KTU BTech CS lab programs, simplified for clarity and performance.",
-  image = "/social-card.jpg",
   noIndex = false,
   type = "website",
 }: {
   title?: string;
   description?: string;
-  image?: string;
   noIndex?: boolean;
   type?: "website" | "article";
 } = {}): Metadata {
@@ -20,17 +18,13 @@ export function constructMetadata({
       title,
       description,
       type,
-      images: [
-        {
-          url: image,
-        },
-      ],
+      images: [{ url: "/social-card.jpg" }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [image],
+      images: ["/social-card.jpg"],
       creator: "@codercodes",
     },
     icons: {
