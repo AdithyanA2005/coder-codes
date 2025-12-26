@@ -23,10 +23,8 @@ export async function generateMetadata({ params }: PostPageProps) {
       title: frontmatter.title,
       description: frontmatter.description,
     };
-  } catch (error) {
-    return {
-      title: "Post Not Found",
-    };
+  } catch {
+    notFound();
   }
 }
 

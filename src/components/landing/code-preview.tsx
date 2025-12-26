@@ -22,10 +22,10 @@ export function CodePreview() {
             int <span className="text-blue-400">main</span>() {"{"}
           </div>
           <div className="pl-4 text-zinc-300">
-            <span className="text-zinc-500">// Simplicity is key</span>
+            <span className="text-zinc-500">{"// Simplicity is key"}</span>
           </div>
           <div className="pl-4 text-zinc-300">
-            printf(<span className="text-green-400">"Hello, CoderCodes!\n"</span>);
+            printf(<span className="text-green-400">&quot;Hello, CoderCodes!\n&quot;</span>);
           </div>
           <div className="pl-4 text-zinc-300">
             return <span className="text-orange-400">0</span>;

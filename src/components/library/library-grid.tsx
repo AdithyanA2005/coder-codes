@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { ArrowRightIcon, Sparkles } from "lucide-react";
 import type { Post } from "@/lib/mdx";
 import { ProgramCard } from "./program-card";
 

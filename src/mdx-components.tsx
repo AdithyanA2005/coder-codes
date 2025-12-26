@@ -4,7 +4,7 @@ import type { MDXComponents } from "mdx/types";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
-    code: ({ className, children, ...props }: any) => {
+    code: ({ className, children, ...props }: React.ComponentPropsWithoutRef<"code">) => {
       const match = /language-(\w+)/.exec(className || "");
       return match ? (
         <SyntaxHighlighter
