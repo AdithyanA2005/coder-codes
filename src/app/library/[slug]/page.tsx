@@ -52,7 +52,7 @@ export default async function PostPage({ params }: PostPageProps) {
             description={frontmatter.description}
           />
 
-          <hr className="mb-8 border-white/5" />
+          <hr className="mb-8 border-white/10" />
 
           <div className="prose prose-invert prose-lg prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-white prose-p:leading-relaxed prose-p:text-zinc-300 prose-a:text-cyan-400 prose-a:no-underline hover:prose-a:text-cyan-300 prose-strong:text-white prose-code:rounded prose-code:bg-white/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:text-sm prose-code:font-normal prose-code:text-cyan-200 prose-hr:border-white/10 prose-pre:bg-transparent prose-pre:border-0 prose-pre:p-0 prose-pre:shadow-none max-w-none">
             <PostContent />

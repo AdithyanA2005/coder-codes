@@ -27,7 +27,7 @@ export function CategoryCard({ category, count }: CategoryCardProps) {
         </p>
       </div>
 
-      <div className="mt-6 flex items-center justify-between border-t border-white/5 pt-4">
+      <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
         <span className="text-xs font-medium text-zinc-400 transition-colors group-hover:text-cyan-400">
           View Category
         </span>
