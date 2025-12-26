@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface Category {
   title: string;
@@ -9,61 +10,37 @@ interface Category {
 }
 
 export function CategoryBar({ categories }: { categories: Category[] }) {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (!scrollContainerRef.current) return;
-    setIsDragging(true);
-    setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
-    setScrollLeft(scrollContainerRef.current.scrollLeft);
-  };
-
-  const handleMouseLeave = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging || !scrollContainerRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - scrollContainerRef.current.offsetLeft;
-    const walk = (x - startX) * 2; // Scroll-fast
-    scrollContainerRef.current.scrollLeft = scrollLeft - walk;
-  };
+  const pathname = usePathname();
 
   return (
-    <div className="mb-8 flex justify-center sm:mb-12">
-      <div
-        ref={scrollContainerRef}
-        className={`scrollbar-hide -mx-6 flex w-full max-w-4xl overflow-x-auto px-6 pb-4 md:mx-auto md:justify-center md:px-0 ${
-          isDragging ? "cursor-grabbing" : "cursor-grab"
-        }`}
-        onMouseDown={handleMouseDown}
-        onMouseLeave={handleMouseLeave}
-        onMouseUp={handleMouseUp}
-        onMouseMove={handleMouseMove}
-      >
-        <div className="flex min-w-max gap-2 sm:gap-3">
-          {categories.map((category) => (
+    <div className="mb-8 sm:mb-12">
+      <div className="scrollbar-hide flex w-full touch-pan-x flex-nowrap gap-2 overflow-x-auto px-6 pb-4 sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-0 sm:pb-0">
+        <Link
+          href="/library"
+          className={`group shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition-all sm:px-5 sm:py-2.5 ${
+            pathname === "/library"
+              ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.15)] ring-1 ring-cyan-500/20"
+              : "border-white/5 bg-white/5 text-zinc-400 hover:border-cyan-500/30 hover:bg-cyan-950/20 hover:text-cyan-200"
+          }`}
+        >
+          All
+        </Link>
+        {categories.map((category) => {
+          const isActive = pathname === `/categories/${category.slug}`;
+          return (
             <Link
               key={category.slug}
               href={`/categories/${category.slug}`}
-              onClick={(e) => {
-                if (isDragging) e.preventDefault();
-              }}
-              draggable={false}
-              className="group relative flex items-center gap-2 rounded-full border border-white/5 bg-white/5 px-4 py-2 text-sm font-medium text-zinc-400 backdrop-blur-md transition-all select-none hover:border-cyan-500/30 hover:bg-cyan-950/20 hover:text-cyan-200 sm:px-5 sm:py-2.5"
+              className={`group shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition-all sm:px-5 sm:py-2.5 ${
+                isActive
+                  ? "border-cyan-500/50 bg-cyan-500/10 text-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.15)] ring-1 ring-cyan-500/20"
+                  : "border-white/5 bg-white/5 text-zinc-400 hover:border-cyan-500/30 hover:bg-cyan-950/20 hover:text-cyan-200"
+              }`}
             >
-              <span className="relative z-10">{category.title}</span>
+              {category.title}
             </Link>
-          ))}
-        </div>
+          );
+        })}
       </div>
     </div>
   );

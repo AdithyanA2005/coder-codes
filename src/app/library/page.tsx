@@ -21,7 +21,9 @@ export default function PostsPage() {
       <div className="fixed top-0 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-cyan-500/10 opacity-30 blur-[100px]" />
 
       <PostsHeader count={posts.length} />
-      <CategoryBar categories={categories} />
+      <div className="relative z-10">
+        <CategoryBar categories={categories} />
+      </div>
       <ResourcesGrid posts={posts} />
     </main>
   );
