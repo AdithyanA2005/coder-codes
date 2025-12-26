@@ -25,6 +25,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
             padding: "1.5rem",
             margin: "0",
           }}
+          className="custom-scrollbar"
         >
           {String(children).replace(/\n$/, "")}
         </SyntaxHighlighter>
