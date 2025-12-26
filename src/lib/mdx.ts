@@ -54,8 +54,15 @@ export function slugify(text: string) {
 }
 
 export function getAllCategories() {
-  const posts = getAllPosts();
-  const categories = new Set(posts.map((post) => post.frontmatter.category).filter(Boolean));
+  const slugs = getPostSlugs();
+  const categories = new Set<string>();
+
+  slugs.forEach((slug) => {
+    const fullPath = path.join(postsDirectory, `${slug}.mdx`);
+    const fileContents = fs.readFileSync(fullPath, "utf8");
+    const { data } = matter(fileContents);
+    if (data.category) categories.add(data.category);
+  });
 
   return Array.from(categories)
     .map((title) => ({
