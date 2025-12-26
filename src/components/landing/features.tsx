@@ -1,5 +1,3 @@
-"use client";
-
 import { Cpu, Eye, Zap, BookOpen, Terminal, Share2 } from "lucide-react";
 
 const features = [

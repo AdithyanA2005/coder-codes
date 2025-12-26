@@ -1,7 +1,7 @@
-import { Hero } from "@/components/home/hero";
 import { CodePreview } from "@/components/landing/code-preview";
 import { CTA } from "@/components/landing/cta";
 import { Features } from "@/components/landing/features";
+import { Hero } from "@/components/landing/hero";
 import { Stats } from "@/components/landing/stats";
 import { constructMetadata } from "@/lib/utils";
 

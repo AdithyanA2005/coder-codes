@@ -1,5 +1,3 @@
-"use client";
-
 export function CodePreview() {
   return (
     <div className="relative mx-auto max-w-3xl px-6 pb-24 sm:pb-32">

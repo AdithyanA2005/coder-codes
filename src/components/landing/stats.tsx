@@ -1,5 +1,3 @@
-"use client";
-
 import { CheckCircle, Code2, Users } from "lucide-react";
 
 const stats = [
