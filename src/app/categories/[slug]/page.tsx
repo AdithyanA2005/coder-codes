@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CategorySlugHeader } from "@/components/categories/category-slug-header";
 import { ProgramCard } from "@/components/library/program-card";
@@ -35,13 +34,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       <div className="fixed top-0 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-cyan-500/10 opacity-30 blur-[100px]" />
 
       <div className="mx-auto max-w-7xl px-6 pb-20">
-        <Link
-          href="/categories"
-          className="mb-8 inline-flex items-center text-sm font-medium text-zinc-400 transition-colors hover:text-cyan-400"
-        >
-          <span className="mr-2 text-lg">←</span> Back to Categories
-        </Link>
-
         <CategorySlugHeader title={categoryTitle} count={posts.length} />
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
