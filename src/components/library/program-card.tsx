@@ -16,7 +16,7 @@ export function ProgramCard({ post, hideCategory = false }: ProgramCardProps) {
       <div className="relative flex flex-1 flex-col">
         {!hideCategory && (
           <div className="mb-4 flex items-start justify-between gap-4">
-            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-cyan-500/20 bg-cyan-500/10 px-2.5 py-0.5 text-[10px] font-medium tracking-wide text-cyan-200 uppercase">
+            <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-cyan-500/20 bg-cyan-500/10 px-2.5 py-0.5 text-xs font-medium tracking-wide text-cyan-200 uppercase">
               <Sparkles className="size-2.5" />
               {post.frontmatter.category}
             </span>
@@ -27,7 +27,7 @@ export function ProgramCard({ post, hideCategory = false }: ProgramCardProps) {
           {post.frontmatter.title}
         </h2>
 
-        <p className="line-clamp-2 text-sm leading-relaxed text-zinc-300 group-hover:text-zinc-300">
+        <p className="line-clamp-2 text-sm leading-relaxed text-zinc-400 transition-colors group-hover:text-zinc-300">
           {post.frontmatter.description}
         </p>
       </div>
@@ -35,7 +35,7 @@ export function ProgramCard({ post, hideCategory = false }: ProgramCardProps) {
       <div className="mt-6 flex items-center justify-between border-t border-white/5 pt-4">
         <time
           dateTime={post.frontmatter.date}
-          className="text-[10px] font-medium tracking-wider text-zinc-400 uppercase group-hover:text-zinc-400"
+          className="text-xs font-medium tracking-wider text-zinc-400 transition-colors group-hover:text-zinc-400"
         >
           {new Date(post.frontmatter.date).toLocaleDateString("en-IN", {
             year: "numeric",
@@ -43,7 +43,7 @@ export function ProgramCard({ post, hideCategory = false }: ProgramCardProps) {
             day: "numeric",
           })}
         </time>
-        <ArrowRightIcon className="size-4 text-zinc-400 transition-transform group-hover:translate-x-1 group-hover:text-cyan-400" />
+        <ArrowRightIcon className="size-4 text-zinc-400 transition-all group-hover:translate-x-1 group-hover:text-cyan-400" />
       </div>
     </Link>
   );
