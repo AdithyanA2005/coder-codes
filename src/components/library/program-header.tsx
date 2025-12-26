@@ -3,11 +3,12 @@ import { Calendar, Tag } from "lucide-react";
 
 interface ProgramHeaderProps {
   title: string;
-  category: string;
+  categoryName: string;
+  categorySlug: string;
   date: string;
 }
 
-export function ProgramHeader({ title, category, date }: ProgramHeaderProps) {
+export function ProgramHeader({ title, categoryName, categorySlug, date }: ProgramHeaderProps) {
   return (
     <div className="mb-12 text-center">
       <div className="space-y-4">
@@ -23,11 +24,11 @@ export function ProgramHeader({ title, category, date }: ProgramHeaderProps) {
             </time>
           </div>
           <Link
-            href={`/categories/${category.toLowerCase().replace(/ /g, "-")}`}
+            href={`/categories/${categorySlug}`}
             className="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/20 bg-cyan-500/10 px-3 py-1 text-xs font-medium tracking-wide text-cyan-300 transition-colors hover:bg-cyan-500/20"
           >
             <Tag className="size-3" />
-            {category}
+            {categoryName}
           </Link>
         </div>
 

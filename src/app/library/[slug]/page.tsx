@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { ProgramHeader } from "@/components/library/program-header";
-import { getPostSlugs } from "@/lib/mdx";
+import { getPostSlugs, slugify } from "@/lib/mdx";
 
 interface PostPageProps {
   params: Promise<{
@@ -44,7 +44,12 @@ export default async function PostPage({ params }: PostPageProps) {
         <div className="fixed top-0 left-1/2 -z-30 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-cyan-500/10 opacity-30 blur-[100px]" />
 
         <div className="container mx-auto max-w-3xl px-6 pb-20">
-          <ProgramHeader title={frontmatter.title} category={frontmatter.category} date={frontmatter.date} />
+          <ProgramHeader
+            title={frontmatter.title}
+            categoryName={frontmatter.category}
+            categorySlug={slugify(frontmatter.category)}
+            date={frontmatter.date}
+          />
 
           <div className="prose prose-invert prose-lg prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-white prose-p:leading-relaxed prose-p:text-zinc-300 prose-a:text-cyan-400 prose-a:no-underline hover:prose-a:text-cyan-300 prose-strong:text-white prose-code:rounded prose-code:bg-white/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:text-sm prose-code:font-normal prose-code:text-cyan-200 prose-hr:border-white/10 prose-pre:bg-transparent prose-pre:border-0 prose-pre:p-0 prose-pre:shadow-none max-w-none">
             <PostContent />
