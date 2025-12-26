@@ -3,7 +3,7 @@ import { Metadata } from "next";
 export function constructMetadata({
   title = "CoderCodes - KTU CS Lab Programs",
   description = "A comprehensive collection of KTU BTech CS lab programs, simplified for clarity and performance.",
-  image = "/opengraph-image.jpg",
+  image = "/social-card.jpg",
   noIndex = false,
   type = "website",
 }: {
