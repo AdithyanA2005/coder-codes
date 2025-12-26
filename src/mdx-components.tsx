@@ -7,7 +7,25 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     code: ({ className, children, ...props }: any) => {
       const match = /language-(\w+)/.exec(className || "");
       return match ? (
-        <SyntaxHighlighter {...props} style={vscDarkPlus} language={match[1]} PreTag="div">
+        <SyntaxHighlighter
+          {...props}
+          style={vscDarkPlus}
+          language={match[1]}
+          PreTag="div"
+          codeTagProps={{
+            style: {
+              background: "transparent",
+              boxShadow: "none",
+            },
+            className: "!bg-transparent !shadow-none !p-0 !rounded-none",
+          }}
+          customStyle={{
+            background: "#1e1e1e",
+            borderRadius: "0.75rem",
+            padding: "1.5rem",
+            margin: "0",
+          }}
+        >
           {String(children).replace(/\n$/, "")}
         </SyntaxHighlighter>
       ) : (
