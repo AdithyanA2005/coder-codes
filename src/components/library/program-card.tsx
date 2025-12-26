@@ -32,7 +32,7 @@ export function ProgramCard({ post, hideCategory = false }: ProgramCardProps) {
         </p>
       </div>
 
-      <div className="mt-6 flex items-center justify-between border-t border-white/5 pt-4">
+      <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
         <time
           dateTime={post.frontmatter.date}
           className="text-xs font-medium tracking-wider text-zinc-400 transition-colors group-hover:text-zinc-400"

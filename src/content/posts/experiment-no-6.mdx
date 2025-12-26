@@ -1,9 +1,10 @@
 ---
-title: 'Experiment No: 6'
+title: "Experiment No: 6"
 description: Implementation of built-in functions in RDBMS.
-category: ' Database Management Systems Lab'
-date: '2025-09-06T17:20:30.782Z'
+category: " Database Management Systems Lab"
+date: "2025-09-06T17:20:30.782Z"
 ---
+
 ## AIM
 
 ### **RDBMS Built in Functions**
@@ -11,14 +12,14 @@ date: '2025-09-06T17:20:30.782Z'
 There are two types of functions:
 
 1. Single Row Functions: Single row or Scalar functions return a value for every row that is processed in a query.
-1. Group Functions: These functions group the rows of data based on the values returned by the query. This is discussed in SQL GROUP Functions. The group functions are used to calculate aggregate values like total or average, which return just one total or one average value after processing a group of rows.
+2. Group Functions: These functions group the rows of data based on the values returned by the query. This is discussed in SQL GROUP Functions. The group functions are used to calculate aggregate values like total or average, which return just one total or one average value after processing a group of rows.
 
 There are four types of single row functions. They are:
 
 1. Numeric Functions: These are functions that accept numeric input and return numeric values.
-1. Character or Text Functions: These are functions that accept character input and can return both character and number values.
-1. Date Functions: These are functions that take values that are of datatype DATE as input and return values of datatype DATE, except for the MONTHS_BETWEEN function, which returns a number. 
-1. Conversion Functions: These are functions that help us to convert a value in one form to another form. For Example: a null value into an actual value, or a value from one datatype to another datatype like NVL, TO_CHAR, TO_NUMBER, TO_DATE etc.
+2. Character or Text Functions: These are functions that accept character input and can return both character and number values.
+3. Date Functions: These are functions that take values that are of datatype DATE as input and return values of datatype DATE, except for the MONTHS_BETWEEN function, which returns a number.
+4. Conversion Functions: These are functions that help us to convert a value in one form to another form. For Example: a null value into an actual value, or a value from one datatype to another datatype like NVL, TO_CHAR, TO_NUMBER, TO_DATE etc.
 
 ## COMMANDS
 
@@ -30,91 +31,91 @@ There are four types of single row functions. They are:
 SELECT ABS(-13) FROM DUAL;
 ```
 
-1. FLOOR
+2. FLOOR
 
 ```sql
 SELECT FLOOR(6.9) FROM DUAL;
 ```
 
-1. CEIL
+3. CEIL
 
 ```sql
 SELECT CEIL(6.9) FROM DUAL;
 ```
 
-1. GREATEST
+4. GREATEST
 
 ```sql
 SELECT GREATEST(11, 22, 33, 44, 55) FROM DUAL;
 ```
 
-1. LEAST
+5. LEAST
 
 ```sql
 SELECT LEAST(11, 22, 33, 44, 55) FROM DUAL;
 ```
 
-1. LENGTH
+6. LENGTH
 
 ```sql
 SELECT LENGTH('Adithyan A') FROM DUAL
 ```
 
-1. SQRT
+7. SQRT
 
 ```sql
 SELECT SQRT(25) FROM DUAL;
 ```
 
-1. POWER
+8. POWER
 
 ```sql
 SELECT POWER(2, 4) FROM DUAL;
 ```
 
-1. ROUND
+9. ROUND
 
 ```sql
 SELECT ROUND(5.8) FROM DUAL;
 ```
 
-1. SIN
+10. SIN
 
 ```sql
 SELECT SIN(90) FROM DUAL
 ```
 
-1. COS
+11. COS
 
 ```sql
 SELECT COS(45) FROM DUAL
 ```
 
-1. TAN
+12. TAN
 
 ```sql
 SELECT TAN(30) FROM DUAL;
 ```
 
-1. SIGN
+13. SIGN
 
 ```sql
 SELECT SIGN(-5), SIGN(5), SIGN(0) FROM DUAL;
 ```
 
-1. LOG
+14. LOG
 
 ```sql
 SELECT LOG(10, 100), LOG(100, 10) FROM DUAL;
 ```
 
-1. MOD
+15. MOD
 
 ```sql
 SELECT MOD(4, 3) FROM DUAL;
 ```
 
-1. EXP
+16. EXP
 
 ```sql
 SELECT EXP(2) FROM DUAL;
@@ -128,25 +129,25 @@ SELECT EXP(2) FROM DUAL;
 SELECT CURRENT_DATE FROM DUAL;
 ```
 
-1. Select Year Only
+2. Select Year Only
 
 ```sql
 SELECT EXTRACT(YEAR FROM SYSDATE) FROM DUAL
 ```
 
-1. Select Day Only
+3. Select Day Only
 
 ```sql
 SELECT EXTRACT(DAY FROM SYSDATE) FROM DUAL;
 ```
 
-1. Select Current Month
+4. Select Current Month
 
 ```sql
 SELECT EXTRACT(MONTH FROM SYSDATE) FROM DUAL;
 ```
 
-1. SYSDATE
+5. SYSDATE
 
 ```sql
 SELECT SYSDATE FROM DUAL;
@@ -160,27 +161,26 @@ SELECT SYSDATE FROM DUAL;
 SELECT EXTRACT(DAY FROM SYSDATE) FROM DUAL;
 ```
 
-1. UPPER
+2. UPPER
 
 ```typescript
 SELECT UPPER('Adithyan A') FROM DUAL;
 ```
 
-1. LOWER
+3. LOWER
 
 ```typescript
 SELECT LOWER('Adithyan A') FROM DUAL;
 ```
 
-1. REPLACE
+4. REPLACE
 
 ```typescript
 SELECT REPLACE('hello', 'h', 'm') FROM DUAL;
 ```
 
-1. TRIM
+5. TRIM
 
 ```typescript
 SELECT TRIM('aanacondaa'), TRIM('a' from 'aanacondaa'), ltrim('aanacondaa', 'a'), rtrim('aanacondaa', 'a') FROM DUAL;
 ```
-
