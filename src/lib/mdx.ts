@@ -16,17 +16,19 @@ export type Post = {
 };
 
 export function getPostSlugs() {
-  return fs.readdirSync(postsDirectory);
+  return fs
+    .readdirSync(postsDirectory)
+    .filter((file) => file.endsWith(".mdx"))
+    .map((file) => file.replace(/\.mdx$/, ""));
 }
 
 export function getPostBySlug(slug: string): Post {
-  const realSlug = slug.replace(/\.mdx$/, "");
-  const fullPath = path.join(postsDirectory, `${realSlug}.mdx`);
+  const fullPath = path.join(postsDirectory, `${slug}.mdx`);
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const { data, content } = matter(fileContents);
 
   return {
-    slug: realSlug,
+    slug,
     frontmatter: data as Post["frontmatter"],
     content,
   };

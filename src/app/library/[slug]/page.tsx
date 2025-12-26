@@ -10,8 +10,8 @@ interface PostPageProps {
 
 export async function generateStaticParams() {
   const posts = getPostSlugs();
-  return posts.map((post) => ({
-    slug: post.replace(/\.mdx$/, ""),
+  return posts.map((slug) => ({
+    slug,
   }));
 }
 
