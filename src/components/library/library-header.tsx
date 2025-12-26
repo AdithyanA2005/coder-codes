@@ -9,7 +9,7 @@ export function PostsHeader({ count }: { count: number }) {
       <h1 className="bg-gradient-to-br from-white via-zinc-200 to-zinc-500 bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl lg:text-6xl">
         Explore the Library
       </h1>
-      <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-zinc-400">
+      <p className="mx-auto mt-4 max-w-xl px-4 text-lg leading-relaxed text-zinc-400">
         A curated collection of optimized KTU BTech CS lab programs. <br className="hidden sm:inline" />
         Search, filter, and copy code instantly.
       </p>
