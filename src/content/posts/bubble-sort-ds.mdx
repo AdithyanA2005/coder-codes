@@ -1,0 +1,58 @@
+---
+title: Bubble Sort
+description: ''
+category: Data Structure Lab
+date: '2025-09-03T23:57:22.671Z'
+---
+## Algorithm
+
+```text
+LinearSearch()
+Being
+	Read array size, "size"
+	Declare arr[size]
+	for (i = 0; i < size; i++), do
+		Read element and store in arr[i]
+	End For
+	for (i = 0; i < size; i++), do
+		for (j = 0; j < size; j++), do
+			if (arr[j] > arr[j+1]), then
+				Set temp = arr[j]
+				Set arr[j] = arr[j+1]
+				Set arr[j+1] = temp;
+			End If
+		End For
+	End For
+	Display sorted array, arr
+End
+```
+
+## Program
+
+```c
+#include <stdio.h>
+
+int main() {
+  int size, temp;
+  printf("Enter array size: ");
+  scanf("%d", &size);
+  int arr[size];
+
+  printf("Enter array elements: ");
+  for (int i = 0; i < size; i++)
+    scanf("%d", &arr[i]);
+
+  for (int i = 0; i < size - 1; i++)
+    for (int j = 0; j < size - i - 1; j++)
+      if (arr[j] > arr[j + 1]) {
+        temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+
+  printf("Sorted array is: ");
+  for (int i = 0; i < size; i++)
+    printf("%d ", arr[i]);
+}
+```
+

@@ -1,0 +1,58 @@
+---
+title: Selection Sort
+description: ''
+category: Data Structure Lab
+date: '2025-09-03T23:58:21.516Z'
+---
+## Algorithm
+
+```text
+SelectionSort()
+Begin
+	Read array size, "size"
+	Declare arr[size]
+	for (i = 0; i < size; i++), do
+		Read element and store in arr[i]
+	End For
+	for (i = 0; i < size; i++), do
+		for (j = i + 1; j < size; j++), do
+			if (arr[i] > arr[j]), then
+				Set temp = arr[i]
+				Set arr[i] = arr[j]
+				Set arr[j] = temp
+			End If
+		End For
+	End For
+	Display sorter array, arr
+End
+```
+
+## Program
+
+```c
+#include <stdio.h>
+
+int main() {
+  int size, temp;
+  printf("Enter array size: ");
+  scanf("%d", &size);
+  int arr[size];
+
+  printf("Enter array elements: ");
+  for (int i = 0; i < size; i++)
+    scanf("%d", &arr[i]);
+
+  for (int i = 0; i < size - 1; i++)
+    for (int j = i + 1; j < size; j++)
+      if (arr[i] > arr[j]) {
+        temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+      }
+
+  printf("Sorted array is: ");
+  for (int i = 0; i < size; i++)
+    printf("%d ", arr[i]);
+}
+```
+

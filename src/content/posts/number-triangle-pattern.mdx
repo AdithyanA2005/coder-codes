@@ -1,0 +1,25 @@
+---
+title: Number triangle pattern
+description: ''
+category: C Programming Lab
+date: '2025-09-03T23:44:59.928Z'
+---
+## Program
+
+```c
+#include <stdio.h>
+
+int main() {
+  int num, i, j;
+  printf("Enter the size: ");
+  scanf("%d", &num);
+
+  for (i = 1; i <= num; i++) {
+    for (j = 1; j <= i; j++) {
+      printf("%d ", i);
+    } 
+    printf("\n");
+  }
+}
+```
+

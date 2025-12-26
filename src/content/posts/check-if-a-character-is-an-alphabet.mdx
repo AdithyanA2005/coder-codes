@@ -1,0 +1,23 @@
+---
+title: Check if a character is an alphabet
+description: ''
+category: C Programming Lab
+date: '2025-09-03T23:30:44.314Z'
+---
+## Program
+
+```c
+#include <stdio.h>
+
+int main() {
+  char ch;
+  printf("Enter a character: ");
+  scanf("%c", &ch);
+
+  if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) 
+    printf("It's an alphabet");
+  else 
+    printf("It's not an alphabet");
+}
+```
+

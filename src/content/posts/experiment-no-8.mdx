@@ -1,0 +1,185 @@
+---
+title: 'Experiment No: 8'
+description: 'Implementation of order by, group by & having clause.'
+category: ' Database Management Systems Lab'
+date: '2025-09-04T03:11:07.137Z'
+---
+## AIM
+
+Create two tables:
+
+- Dept (Department_Id, Department_Name, Manager_id, Loc)
+- Emp(Emp_no, Emp_name,Job, Salary, Hiredate,Comm, Depno)
+
+MANAGER_ID is the empno of the employee whom the employee reports to. DEPTNO is a foreign key. Insert these values into department table
+
+1. Display the name and salary for all employees whose salary is not in the range of 5000 and 35000
+1. Display the employee name, job ID, and start date of employees hired between February 20, 1990, and May 1, 1998. Order the query in ascending order by start date.
+1. List the name and salary of employees who earn between 5,000 and 12,000, and are in department 2 or 4. Label the columns Employee and Monthly Salary, respectively.
+1. ﻿﻿Display the name and hire date of every employee who was hired in 1994.
+1. ﻿Display the name, salary, and commission for all employees who earn commissions. Sort data in descending order of salary and commissions.
+1. ﻿﻿﻿Display the name and job title of all employees who do not have a manager.
+1. ﻿Display the names of all employees where the third letter of the name is an a.
+1. ﻿﻿Display the name of all employees who have an a and an e in their name.
+1. ﻿﻿Display the name, job, and salary for all employees whose job is sales representative or stock clerk and whose salary is not equal to 2,0000, 4000, or 7,000.
+1. ﻿﻿﻿Write a query that displays the employee's names with the first letter capitalized and all other letters lowercase and the length of the name for all employees whose name starts with J, A, or M. Give each column an appropriate label. Sort the results by the employee's names.
+1. Write a query to display the number of people with the same job.
+1. Display the manager number and the salary of the lowest paid employee for that manager. Exclude anyone whose manager is not known. Exclude any group where the minimum salary is less than 6000. Sort the output in descending order of salary
+
+## COMMANDS
+
+### Create tables
+
+```sql
+CREATE TABLE Dept (
+    Department_Id   INT PRIMARY KEY,
+    Department_Name VARCHAR(10),
+    Manager_Id      INT,
+    Loc             VARCHAR(10)
+);
+
+CREATE TABLE Emp (
+    Emp_no     INT PRIMARY KEY,
+    Emp_name   VARCHAR(15),
+    Job        VARCHAR(15),
+    Salary     INT,
+    Hiredate   DATE,
+    Comm       INT,
+    Depno      INT,
+    Manager_Id INT,
+    FOREIGN KEY (Depno) REFERENCES Dept(Department_Id),
+    FOREIGN KEY (Manager_Id) REFERENCES Emp(Emp_no)
+);
+```
+
+### Insert data into table
+
+```sql
+-- Department
+INSERT INTO Dept VALUES (1, 'HR',      101, 'New York');
+INSERT INTO Dept VALUES (2, 'Sales',   102, 'Chicago');
+INSERT INTO Dept VALUES (3, 'IT',      103, 'SF');
+INSERT INTO Dept VALUES (4, 'Finance', 104, 'Boston');
+
+-- Employees
+INSERT INTO Emp VALUES (101, 'John',   'Manager',     40000, '15-Feb-90', NULL, 1, NULL);
+INSERT INTO Emp VALUES (102, 'Alice',  'Salesman',    12000, '20-Mar-92', 2000, 2, 101);
+INSERT INTO Emp VALUES (103, 'Bob',    'Clerk',        6000, '10-Jul-94', NULL, 2, 102);
+INSERT INTO Emp VALUES (104, 'Carol',  'Analyst',     15000, '05-May-98', NULL, 3, 101);
+INSERT INTO Emp VALUES (105, 'David',  'Clerk',        8000, '15-Aug-94', NULL, 4, 104);
+INSERT INTO Emp VALUES (106, 'Ethan',  'Sales Rep',   20000, '01-Jan-91', 3000, 2, 102);
+INSERT INTO Emp VALUES (107, 'Maria',  'Sales Rep',   4000,  '11-Nov-93', NULL, 2, 102);
+INSERT INTO Emp VALUES (108, 'Eva',    'Stock Clerk', 7000,  '01-Jan-96', NULL, 3, 103);
+INSERT INTO Emp VALUES (109, 'Angela', 'Sales Rep',  10000,  '12-Dec-94', 1500, 2, 102);
+
+```
+
+### Queries
+
+1. Display the name and salary for all employees whose salary is not in the range of 5000 and 35000 
+
+```sql
+SELECT Emp_name, Salary
+FROM Emp
+WHERE Salary NOT BETWEEN 5000 AND 35000;
+```
+
+1. Display the employee name, job ID, and start date of employees hired between February 20, 1990, and May 1, 1998. Order the query in ascending order by start date. 
+
+```sql
+SELECT Emp_name, Job, Hiredate
+FROM Emp
+WHERE Hiredate BETWEEN '20-Feb-90' AND '01-May-98'
+ORDER BY Hiredate ASC;
+```
+
+1. List the name and salary of employees who earn between 5,000 and 12,000, and are in department 2 or 4. Label the columns Employee and Monthly Salary, respectively. /
+
+```sql
+SELECT Emp_name AS Employee, Salary AS "Monthly Salary"
+FROM Emp
+WHERE Salary BETWEEN 5000 AND 12000 AND Depno IN (2,4);
+```
+
+1. Display the name and hire date of every employee who was hired in 1994 
+
+```sql
+SELECT Emp_name, Hiredate
+FROM Emp
+WHERE TO_CHAR(Hiredate,'YYYY') = '1994';
+```
+
+1. Display the name, salary, and commission for all employees who earn commissions. Sort data in descending order of salary and commissions. 
+
+```sql
+SELECT Emp_name, Salary, Comm
+FROM Emp
+WHERE Comm IS NOT NULL
+ORDER BY Salary DESC, Comm DESC;
+```
+
+1. Display the name and job title of all employees who do not have a manager. 
+
+```sql
+SELECT Emp_name, Job
+FROM Emp
+WHERE Manager_Id IS NULL;
+```
+
+1. Display the names of all employees where the third letter of the name is an a. 
+
+```sql
+SELECT Emp_name
+FROM Emp
+WHERE SUBSTR(Emp_name,3,1) = 'a';
+```
+
+1. Display the name of all employees who have an a and an e in their name.
+
+```sql
+SELECT Emp_name
+FROM Emp
+WHERE Emp_name LIKE '%a%'
+  AND Emp_name LIKE '%e%';
+```
+
+1. ﻿﻿Display the name, job, and salary for all employees whose job is sales representative or stock clerk and whose salary is not equal to 2,0000, 4000, or 7,000.
+
+```sql
+SELECT Emp_name, Job, Salary
+FROM Emp
+WHERE Job IN ('Sales Rep','Stock Clerk')
+  AND Salary NOT IN (2000,4000,7000);
+```
+
+1. Write a query that displays the employee's names with the first letter capitalized and all other letters lowercase and the length of the name for all employees whose name starts with J, A, or M. Give each column an appropriate label. Sort the results by the employee's names.
+
+```sql
+SELECT 
+    INITCAP(Emp_name) AS "Employee Name",
+    LENGTH(Emp_name)  AS "Name Length"
+FROM Emp
+WHERE UPPER(SUBSTR(Emp_name, 1, 1)) IN ('J', 'A', 'M')
+ORDER BY INITCAP(Emp_name);
+
+```
+
+1. Write a query to display the number of people with the same job.
+
+```sql
+SELECT Job, COUNT(*) AS Num_Employees
+FROM Emp
+GROUP BY Job;
+```
+
+1. Display the manager number and the salary of the lowest paid employee for that manager. Exclude anyone whose manager is not known. Exclude any group where the minimum salary is less than 6000. Sort the output in descending order of salary
+
+```sql
+SELECT Manager_Id, MIN(Salary) AS Lowest_Salary
+FROM Emp
+WHERE Manager_Id IS NOT NULL
+GROUP BY Manager_Id
+HAVING MIN(Salary) >= 6000
+ORDER BY Lowest_Salary DESC;
+```
+

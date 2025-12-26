@@ -1,0 +1,23 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#18181b" />
+      <stop offset="100%" stop-color="#09090b" />
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background Container -->
+  <rect x="0" y="0" width="512" height="512" rx="128" fill="url(#bg)" />
+  
+  <!-- Subtle Glass Border -->
+  <rect x="10" y="10" width="492" height="492" rx="118" stroke="white" stroke-opacity="0.1" stroke-width="20" />
+  
+  <!-- Content: >_ -->
+  <text x="50%" y="50%" font-family="monospace" font-weight="bold" font-size="280" text-anchor="middle" dy=".35em" fill="url(#glow)" style="font-family: 'JetBrains Mono', 'Fira Code', monospace; letter-spacing: -20px;">
+    &gt;_
+  </text>
+</svg>

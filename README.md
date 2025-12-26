@@ -1,81 +1,93 @@
 # CoderCodes
 
-A modern web application built with Next.js, Sanity CMS, and TypeScript, featuring authentication and a beautiful UI powered by Tailwind CSS.
+> A curated collection of optimized KTU BTech CS lab programs.
 
-Explore this platform where there is a curated collection of programs based on different subjecs/labs
+**CoderCodes** is a modern, high-performance web application designed to help Computer Science students explore, learn, and implement core algorithms and system programs. Built with the cutting-edge **Next.js 16** stack, it prioritizes speed, aesthetics, and developer experience.
 
-## Features
+![Project Preview](/screenshot.png)
 
-- 🚀 Built with Next.js 15 and React 19
-- 📝 Content management with Payload CMS
-- 🔐 Authentication using NextAuth.js
-- 💅 Modern UI with Tailwind CSS and Radix UI components
-- 🌗 Markdown support with syntax highlighting
-- 📱 Fully responsive design
-- 🔍 Type-safe development with TypeScript
+## 🚀 Key Features
 
-## Prerequisites
+- **⚡ Blazing Fast**: Powered by Next.js 16 (App Router) & Turbopack.
+- **🎨 Modern UI**: Styled with Tailwind CSS v4, featuring glassmorphism, smooth gradients, and micro-interactions.
+- **� Native MDX**: Content is managed via a filesystem-based MDX layer—no databases, zero latency.
+- **📱 Optimised for Mobile**: Responsive design that adapts perfectly from desktops to foldables.
+- **🔍 SEO Ready**: Automatic metadata generation, sitemaps, and optimized open graph tags.
+- **🌑 Dark Mode**: A carefully crafted dark theme for late-night coding sessions.
 
-- Node.js LTS (v24.5.0 or higher)
-- pnpm (v10.15.0 or higher)
+## �️ Tech Stack
 
-## Getting Started
+- **Framework**: Next.js 16.1.1 (React 19)
+- **Styling**: Tailwind CSS v4 (Alpha/Beta engine)
+- **Icons**: Lucide React
+- **Content**: MDX + Gray Matter
+- **Typography**: Geist Sans & Geist Mono
+- **Tooling**: pnpm, ESLint, Prettier
 
-1. Clone the repository:
+## 🏃‍♂️ Getting Started
+
+### Prerequisites
+
+- Node.js 18+ (LTS Recommended)
+- pnpm (v9+ recommended)
+
+### Installation
+
+1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/AdithyanA2005/CoderCodes
+   git clone https://github.com/AdithyanA2005/CoderCodes.git
    cd CoderCodes
    ```
 
-2. Install dependencies:
+2. **Install dependencies**
 
    ```bash
    pnpm install
    ```
 
-3. Set up environment variables:
-   - Copy `env.example` to `.env.local`
-   - Fill in the required environment variables
+   > Note: We use `pnpm` for efficient package management.
 
-4. Run the development server:
+3. **Run the development server**
 
    ```bash
    pnpm run dev
    ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
+4. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000).
 
-## Scripts
+## 📂 Project Structure
 
-- `pnpm run dev` - Start the development server
-- `pnpm run build` - Build the application for production
-- `pnpm run start` - Start the production server
+```bash
+src/
+├── app/               # Next.js App Router pages
+│   ├── library/       # Program listing & details
+│   ├── categories/    # Category browsing
+│   └── layout.tsx     # Root layout & fonts
+├── components/        # React components
+│   ├── landing/       # Homepage sections
+│   ├── library/       # Library-specific UI
+│   └── ...
+├── content/           # MDX Source Files (The Database)
+│   └── posts/         # Individual program files
+└── lib/               # Utilities (MDX parsing, helpers)
+```
 
-## Tech Stack
+## 🤝 Contributing
 
-- **Framework:** Next.js 15
-- **Language:** TypeScript
-- **Content Management:** Payload CMS
-- **Styling:** Tailwind CSS
-- **UI Components:** Shadc UI
-- **Authentication:** NextAuth.js
-- **Markdown:** react-syntax-highlighter, Payload RichText component
-- **Code Quality:** ESLint, Prettier
+Contributions are welcome! If you have a better version of a program or want to fix a bug:
 
-## Project Structure
+1. Fork the project.
+2. Create your feature branch (`git checkout -b feature/AmazingOptimization`).
+3. Commit your changes.
+4. Push to the branch.
+5. Open a Pull Request.
 
-- `/src/app/` - Next.js application routes and pages
-- `/src/components` - Reusable React components
-- `/src/lib` - Utility functions and shared code
-- `/public` - Static assets
-- `/src/collections` - Schemas for various collection in payload-cms
-- `/src/block` - Reusable blocks that can be used in payload-cms rich text
+## 📄 License
 
-## Contributing
+Distributed under the MIT License. See `LICENSE` for more information.
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+---
+
+Built with ❤️ by [Adithyan](https://github.com/AdithyanA2005)

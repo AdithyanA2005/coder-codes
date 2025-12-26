@@ -1,12 +1,43 @@
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { Metadata } from "next";
 
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
-
-export function getInitials(name: string): string {
-  const nameParts = name.split(" ");
-  const initials = nameParts.map((part) => part.charAt(0).toUpperCase()).slice(0, 2);
-  return initials.join("");
+export function constructMetadata({
+  title = "CoderCodes - KTU CS Lab Programs",
+  description = "A comprehensive collection of KTU BTech CS lab programs, simplified for clarity and performance.",
+  noIndex = false,
+  type = "website",
+}: {
+  title?: string;
+  description?: string;
+  noIndex?: boolean;
+  type?: "website" | "article";
+} = {}): Metadata {
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type,
+      images: [{ url: "/social-card.jpg" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/social-card.jpg"],
+      creator: "@codercodes",
+    },
+    icons: {
+      icon: "/icon.png",
+      shortcut: "/favicon.ico",
+      apple: "/apple-icon.png",
+    },
+    metadataBase: new URL("https://codercodes.vercel.app"),
+    ...(noIndex && {
+      robots: {
+        index: false,
+        follow: false,
+      },
+    }),
+  };
 }

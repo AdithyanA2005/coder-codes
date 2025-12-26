@@ -1,0 +1,30 @@
+---
+title: Copy string to another variable without function
+description: ''
+category: C Programming Lab
+date: '2025-09-03T23:43:16.383Z'
+---
+## Program
+
+```c
+#include <stdio.h>
+
+int main() {
+    char source[100], destination[100];
+    int i = 0;
+
+    printf("Enter a string: ");
+    scanf("%s", source);
+
+    while (source[i] != '\0') {
+        destination[i] = source[i];
+        i++;
+    }
+
+    destination[i] = '\0';
+    printf("Copied string: %s\n", destination);
+
+    return 0;
+}
+```
+
