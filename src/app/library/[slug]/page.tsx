@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { ProgramHeader } from "@/components/library/program-header";
 import { getPostSlugs, slugify } from "@/lib/mdx";
+import { constructMetadata } from "@/lib/utils";
 
 interface PostPageProps {
   params: Promise<{
@@ -19,20 +20,11 @@ export async function generateMetadata({ params }: PostPageProps) {
   const { slug } = await params;
   try {
     const { frontmatter } = await import(`@/content/posts/${slug}.mdx`);
-    return {
+    return constructMetadata({
       title: frontmatter.title,
       description: frontmatter.description,
-      openGraph: {
-        title: frontmatter.title,
-        description: frontmatter.description,
-        type: "article",
-      },
-      twitter: {
-        card: "summary_large_image",
-        title: frontmatter.title,
-        description: frontmatter.description,
-      },
-    };
+      type: "article",
+    });
   } catch {
     notFound();
   }

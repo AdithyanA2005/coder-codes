@@ -1,23 +1,13 @@
-import { Metadata } from "next";
 import { CategoryBar } from "@/components/library/category-bar";
 import { ResourcesGrid } from "@/components/library/library-grid";
 import { PostsHeader } from "@/components/library/library-header";
 import { getAllPosts, getAllCategories } from "@/lib/mdx";
+import { constructMetadata } from "@/lib/utils";
 
-export const metadata: Metadata = {
+export const metadata = constructMetadata({
   title: "Library - CoderCodes",
   description: "Browse our comprehensive collection of KTU BTech CS lab programs.",
-  openGraph: {
-    title: "Library - CoderCodes",
-    description: "Browse our comprehensive collection of KTU BTech CS lab programs.",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Library - CoderCodes",
-    description: "Browse our comprehensive collection of KTU BTech CS lab programs.",
-  },
-};
+});
 
 export default function PostsPage() {
   const posts = getAllPosts();

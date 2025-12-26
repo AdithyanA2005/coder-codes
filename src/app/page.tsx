@@ -1,24 +1,14 @@
-import { Metadata } from "next";
 import { Hero } from "@/components/home/hero";
 import { CodePreview } from "@/components/landing/code-preview";
 import { CTA } from "@/components/landing/cta";
 import { Features } from "@/components/landing/features";
 import { Stats } from "@/components/landing/stats";
+import { constructMetadata } from "@/lib/utils";
 
-export const metadata: Metadata = {
+export const metadata = constructMetadata({
   title: "CoderCodes - KTU CS Lab Programs",
   description: "A comprehensive collection of KTU BTech CS lab programs, simplified for clarity and performance.",
-  openGraph: {
-    title: "CoderCodes - KTU CS Lab Programs",
-    description: "A comprehensive collection of KTU BTech CS lab programs, simplified for clarity and performance.",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "CoderCodes - KTU CS Lab Programs",
-    description: "A comprehensive collection of KTU BTech CS lab programs, simplified for clarity and performance.",
-  },
-};
+});
 
 export default function Page() {
   return (

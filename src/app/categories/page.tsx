@@ -1,22 +1,12 @@
-import type { Metadata } from "next";
 import { CategoryCard } from "@/components/categories/category-card";
 import { CategoryHeader } from "@/components/categories/category-header";
 import { getAllCategories, getPostsByCategorySlug } from "@/lib/mdx";
+import { constructMetadata } from "@/lib/utils";
 
-export const metadata: Metadata = {
+export const metadata = constructMetadata({
   title: "Categories - CoderCodes",
   description: "Browse all topics and categories of lab programs available on CoderCodes.",
-  openGraph: {
-    title: "Categories - CoderCodes",
-    description: "Browse all topics and categories of lab programs available on CoderCodes.",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Categories - CoderCodes",
-    description: "Browse all topics and categories of lab programs available on CoderCodes.",
-  },
-};
+});
 
 export default function CategoriesPage() {
   const categories = getAllCategories();
