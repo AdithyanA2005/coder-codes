@@ -13,17 +13,17 @@ export function Navbar() {
           <Logo />
         </div>
 
-        <div className="flex items-center gap-1 sm:gap-2">
+        <div className="flex items-center gap-0.5 sm:gap-2">
           <NavLink href="/library">Library</NavLink>
           <NavLink href="/categories">Categories</NavLink>
 
-          <div className="mx-1 h-4 w-px bg-white/10 sm:mx-2" />
+          <div className="mx-0.5 hidden h-4 w-px bg-white/10 min-[350px]:block sm:mx-2" />
 
           <Link
             href="https://github.com/AdithyanA2005/CoderCodes"
             target="_blank"
             aria-label="GitHub"
-            className="flex items-center gap-2 rounded-full bg-white/5 p-2 text-sm font-medium text-zinc-300 transition-colors hover:bg-white/10 hover:text-white sm:px-3 sm:py-1.5"
+            className="hidden items-center gap-2 rounded-full bg-white/5 p-2 text-sm font-medium text-zinc-300 transition-colors hover:bg-white/10 hover:text-white min-[350px]:flex sm:px-3 sm:py-1.5"
           >
             <GithubIcon className="size-4 sm:size-3.5" />
             <span className="hidden sm:inline">Star</span>
@@ -38,7 +38,7 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
   return (
     <Link
       href={href}
-      className="relative rounded-full px-3 py-1.5 text-sm font-medium text-zinc-400 transition-colors hover:bg-white/5 hover:text-white sm:px-4"
+      className="relative rounded-full px-2 py-1.5 text-sm font-medium text-zinc-400 transition-colors hover:bg-white/5 hover:text-white sm:px-4"
     >
       {children}
     </Link>
