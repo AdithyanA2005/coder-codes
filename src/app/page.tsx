@@ -20,7 +20,7 @@ export default function Page() {
       <div className="fixed bottom-0 left-0 -z-30 h-[800px] w-[800px] rounded-full bg-violet-600/15 opacity-40 blur-[120px]" />
 
       {/* Grid Texture - Extended for landing page */}
-      <div className="absolute inset-x-0 top-0 -z-20 h-[100vh] bg-[url('/grid.svg')] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] bg-center" />
+      <div className="absolute inset-x-0 top-0 -z-20 h-[100vh] bg-[url('/images/grid.svg')] [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))] bg-center" />
 
       <Hero />
       <CodePreview />
