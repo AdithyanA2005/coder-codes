@@ -1,0 +1,196 @@
+---
+title: TCP Client Server Communication Using Sockets 
+description: 'To implement a simple TCP client and server program for exchanging messages using socket programming in C.'
+category: Network Lab
+date: '2026-01-07T17:56:58.770Z'
+---
+## Algorithms
+
+### Client
+
+Step 1: Create Socket
+- Create a TCP client socket using socket(AF_INET, SOCK_STREAM, 0).
+- If socket creation fails, terminate the program.
+
+Step 2: Define Server Address
+- Set the address family to AF_INET.
+- Set the port number to 5555.
+- Set the IP address to 127.0.0.1.
+
+Step 3: Connect to Server
+- Connect the client socket to the server using connect().
+- Display a message if the connection is successful.
+
+Step 4: Send Message
+- Send a message to the server using send().
+
+Step 5: Receive Reply
+- Receive the server’s reply using recv().
+- Display the received message.
+
+Step 6: Close Socket
+- Close the client socket using close().
+
+### Server
+
+Step 1: Create Socket
+- Create a TCP server socket using socket(AF_INET, SOCK_STREAM, 0).
+- If socket creation fails, terminate the program.
+
+Step 2: Define Server Address
+- Set the address family to AF_INET.
+- Set the port number to 5555.
+- Set the IP address to 127.0.0.1.
+
+Step 3: Bind Socket
+- Bind the socket to the specified IP address and port using bind().
+
+Step 4: Listen for Connections
+- Put the server in listening mode using listen().
+
+Step 5: Accept Client
+- Accept a client connection using accept().
+
+Step 6: Receive Message
+- Receive data from the client using recv().
+- Display the received message.
+
+Step 7: Send Reply
+- Send a response message to the client using send().
+
+Step 8: Close Connection
+- Close the client socket.
+- Repeat the process for the next client.
+
+
+## Programs
+
+### Client
+
+```c
+#include <arpa/inet.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+#define PORT 5555
+#define BUF_SIZE 1024
+
+int main() {
+  int sock;
+  struct sockaddr_in server_addr;
+  char buffer[BUF_SIZE];
+  int n;
+
+  sock = socket(AF_INET, SOCK_STREAM, 0);
+  if (sock < 0) {
+    perror("socket error");
+    exit(1);
+  }
+  printf("[CLIENT] TCP socket created\n");
+
+  memset(&server_addr, 0, sizeof(server_addr));
+  server_addr.sin_family = AF_INET;
+  server_addr.sin_port = htons(PORT);
+  server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+  if (connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
+    perror("connect error");
+    exit(1);
+  }
+  printf("[CLIENT] Connected to server\n");
+
+  strcpy(buffer, "HELLO FROM TCP CLIENT");
+  send(sock, buffer, strlen(buffer), 0);
+  printf("[CLIENT] Sent: %s\n", buffer);
+
+  memset(buffer, 0, BUF_SIZE);
+  n = recv(sock, buffer, BUF_SIZE - 1, 0);
+  if (n > 0) {
+    buffer[n] = '\0';
+    printf("[CLIENT] Received: %s\n", buffer);
+  }
+
+  close(sock);
+  printf("[CLIENT] Disconnected from server\n");
+
+  return 0;
+}
+```
+
+### Server
+
+```c
+#include <arpa/inet.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+#define PORT 5555
+#define BUF_SIZE 1024
+
+int main() {
+  int server_sock, client_sock;
+  struct sockaddr_in server_addr, client_addr;
+  socklen_t addr_size;
+  char buffer[BUF_SIZE];
+  int n;
+
+  server_sock = socket(AF_INET, SOCK_STREAM, 0);
+  if (server_sock < 0) {
+    perror("socket error");
+    exit(1);
+  }
+  printf("[SERVER] TCP socket created\n");
+
+  memset(&server_addr, 0, sizeof(server_addr));
+  server_addr.sin_family = AF_INET;
+  server_addr.sin_port = htons(PORT);
+  server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+  if (bind(server_sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) <
+      0) {
+    perror("bind error");
+    exit(1);
+  }
+  printf("[SERVER] Bound to port %d\n", PORT);
+
+  if (listen(server_sock, 5) < 0) {
+    perror("listen error");
+    exit(1);
+  }
+  printf("[SERVER] Listening...\n");
+
+  while (1) {
+    addr_size = sizeof(client_addr);
+    client_sock =
+        accept(server_sock, (struct sockaddr *)&client_addr, &addr_size);
+    if (client_sock < 0) {
+      perror("accept error");
+      continue;
+    }
+
+    printf("[SERVER] Client connected\n");
+
+    memset(buffer, 0, BUF_SIZE);
+    n = recv(client_sock, buffer, BUF_SIZE - 1, 0);
+    if (n > 0) {
+      buffer[n] = '\0';
+      printf("[SERVER] Received: %s\n", buffer);
+    }
+
+    strcpy(buffer, "HELLO FROM TCP SERVER");
+    send(client_sock, buffer, strlen(buffer), 0);
+    printf("[SERVER] Sent response\n");
+
+    close(client_sock);
+    printf("[SERVER] Client disconnected\n\n");
+  }
+
+  close(server_sock);
+  return 0;
+}
+```
+
