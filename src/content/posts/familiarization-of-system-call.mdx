@@ -1,0 +1,61 @@
+---
+title: Familiarization of System Calls
+description: 'To create a parent and child process using the fork() system call and compute the sum of even and odd numbers separately.'
+category: Network Lab
+date: '2026-01-07T17:41:32.781Z'
+---
+## Algorithm
+
+Step 1: Initialize Data
+  - Declare and initialize an array with 10 integers.
+  - Initialize variables to store the sum of even and odd numbers.
+
+Step 2: Create a Child Process
+  - Call the fork() system call to create a new process.
+
+Step 3: Parent Process Execution
+  - If fork() returns a positive value, the process is the parent.
+  - Traverse the array.
+  - Add all even numbers.
+  - Display the sum of even numbers.
+
+Step 4: Child Process Execution
+  - If fork() returns zero, the process is the child.
+  - Traverse the array.
+  - Add all odd numbers.
+  - Display the sum of odd numbers.
+
+Step 5: Terminate Program
+  - End execution of both parent and child processes.
+
+## Program
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
+int main() {
+  int a[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+  int sumOdd = 0, sumEven = 0, n, i;
+  n = fork();
+
+  if (n > 0) {
+    for (int i = 0; i < 10; i++)
+      if (a[i] % 2 == 0)
+        sumEven += a[i];
+
+    printf("Parent Process:\n");
+    printf("Sum of even numbers is %d\n", sumEven);
+  } else {
+    for (int i = 0; i < 10; i++)
+      if (a[i] % 2 != 0)
+        sumOdd += a[i];
+
+    printf("\nChild Process:\n");
+    printf("Sum of odd numbers is %d\n", sumOdd);
+  }
+}
+```
+
