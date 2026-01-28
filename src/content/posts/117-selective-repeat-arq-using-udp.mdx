@@ -1,0 +1,264 @@
+---
+title: Implementation of Selective Repeat ARQ Protocol Using UDP
+description: "To implement sliding window protocol with Selective Repeat ARQ protocol using socket programming in C."
+category: Network Lab
+date: "2026-01-29T01:50:00.000Z"
+---
+
+## Algorithms
+
+### Algorithm: Client (Sliding Window Sender – Selective Repeat)
+
+#### Step 1: Create UDP Socket
+
+* Create a UDP socket using `socket(AF_INET, SOCK_DGRAM, 0)`.
+* If socket creation fails, terminate the program.
+
+#### Step 2: Define Server Address
+
+* Set address family to `AF_INET`.
+* Set port number to `5555`.
+* Set IP address to `127.0.0.1`.
+
+#### Step 3: Initialize Variables
+
+* Define:
+
+  * `PACKET_COUNT` = total number of packets.
+  * `WINDOW_SIZE` = sliding window size.
+* Initialize:
+
+  * `acked[PACKET_COUNT] = 0` (to track acknowledgements).
+  * `base = 0` (start of the window).
+  * `next = 0` (next packet to send).
+
+#### Step 4: Start Transmission Loop
+
+* Repeat while `base < PACKET_COUNT`:
+
+##### Step 4.1: Send Packets Within Window
+
+* While:
+
+  * `next < base + WINDOW_SIZE`, and
+  * `next < PACKET_COUNT`
+* Do:
+
+  * Create a packet containing sequence number `(next + 1)`.
+  * Send the packet to the server using `sendto()`.
+  * Increment `next`.
+
+##### Step 4.2: Receive Acknowledgement
+
+* Wait for an ACK from the server using `recvfrom()`.
+* Extract the acknowledged packet number from the received message.
+
+##### Step 4.3: Mark Packet as Acknowledged
+
+* Set `acked[ack_number - 1] = 1`.
+
+##### Step 4.4: Slide the Window
+
+* While:
+
+  * `base < PACKET_COUNT` and
+  * `acked[base] == 1`
+* Increment `base` to move the window forward.
+
+#### Step 5: Terminate Client
+
+* Close the socket after all packets are acknowledged.
+* End the program.
+
+---
+
+### Algorithm: Server (Receiver with Individual ACKs)
+
+#### Step 1: Create UDP Socket
+
+* Create a UDP socket using `socket(AF_INET, SOCK_DGRAM, 0)`.
+* If socket creation fails, terminate the program.
+
+#### Step 2: Define Server Address
+
+* Set address family to `AF_INET`.
+* Set port number to `5555`.
+* Set IP address to `127.0.0.1`.
+
+#### Step 3: Bind Socket
+
+* Bind the socket to the specified IP address and port using `bind()`.
+* If binding fails, terminate the program.
+
+#### Step 4: Initialize Data Structures
+
+* Create an array `received[PACKET_COUNT]` initialized to `0` to track received packets.
+
+#### Step 5: Start Receiving Loop
+
+* Repeat indefinitely:
+
+##### Step 5.1: Receive Packet
+
+* Receive a packet from the client using `recvfrom()`.
+* Extract the packet sequence number.
+
+##### Step 5.2: Validate Packet Number
+
+* If the packet number is outside the valid range:
+
+  * Discard the packet.
+  * Continue waiting for the next packet.
+
+##### Step 5.3: Process Packet
+
+* If the packet has not been received before:
+
+  * Mark it as received.
+  * Print confirmation of reception.
+* Else:
+
+  * Identify it as a duplicate packet.
+
+##### Step 5.4: Send Acknowledgement
+
+* Send an acknowledgement in the format `"ACK <packet_number>"` back to the client using `sendto()`.
+
+#### Step 6: Continue Operation
+
+* Continue receiving packets and sending ACKs indefinitely.
+
+
+---
+
+
+## Programs
+
+### Client
+
+```c
+#include <arpa/inet.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+#define PACKET_COUNT 10
+#define WINDOW_SIZE 3
+#define PORT 5555
+
+int main() {
+  int sockfd;
+  struct sockaddr_in server_addr;
+  char buffer[1024];
+  int acked[PACKET_COUNT] = {0};
+  int base = 0, next = 0;
+
+  sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+  if (sockfd < 0) {
+    perror("Socket error");
+    exit(1);
+  }
+
+  memset(&server_addr, 0, sizeof(server_addr));
+  server_addr.sin_family = AF_INET;
+  server_addr.sin_port = htons(PORT);
+  server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+  printf("Client started...\n");
+
+  while (base < PACKET_COUNT) {
+    /* Send packets inside window */
+    while (next < base + WINDOW_SIZE && next < PACKET_COUNT) {
+      sprintf(buffer, "%d", next + 1);
+      printf("Client: Sending packet %d\n", next + 1);
+
+      sendto(sockfd, buffer, strlen(buffer), 0, (struct sockaddr *)&server_addr,
+             sizeof(server_addr));
+      next++;
+    }
+
+    /* Receive ACK */
+    bzero(buffer, sizeof(buffer));
+    recvfrom(sockfd, buffer, sizeof(buffer), 0, NULL, NULL);
+
+    int pkt;
+    sscanf(buffer, "ACK %d", &pkt);
+    printf("Client: ACK received for packet %d\n", pkt);
+    acked[pkt - 1] = 1;
+
+    /* Slide window */
+    while (base < PACKET_COUNT && acked[base])
+      base++;
+  }
+
+  close(sockfd);
+  return 0;
+}
+```
+
+### Server
+
+```c
+#include <arpa/inet.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+#define PACKET_COUNT 10
+#define PORT 5555
+
+int main() {
+  int sockfd, n;
+  struct sockaddr_in server_addr, client_addr;
+  char buffer[1024];
+  int received[PACKET_COUNT] = {0};
+  socklen_t addr_size = sizeof(client_addr);
+
+  sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+  if (sockfd < 0) {
+    perror("Socket error");
+    exit(1);
+  }
+
+  memset(&server_addr, 0, sizeof(server_addr));
+  server_addr.sin_family = AF_INET;
+  server_addr.sin_port = htons(PORT);
+  server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+  n = bind(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr));
+  if (n < 0) {
+    perror("Bind error");
+    close(sockfd);
+    exit(1);
+  }
+
+  printf("Server started...\n");
+
+  while (1) {
+    bzero(buffer, sizeof(buffer));
+    recvfrom(sockfd, buffer, sizeof(buffer), 0, (struct sockaddr *)&client_addr,
+             &addr_size);
+
+    int pkt = atoi(buffer);
+
+    if (pkt < 1 || pkt > PACKET_COUNT)
+      continue;
+
+    if (!received[pkt - 1]) {
+      printf("Server: Received packet %d\n", pkt);
+      received[pkt - 1] = 1;
+    } else {
+      printf("Server: Duplicate packet %d\n", pkt);
+    }
+
+    sprintf(buffer, "ACK %d", pkt);
+    sendto(sockfd, buffer, strlen(buffer), 0, (struct sockaddr *)&client_addr,
+           addr_size);
+  }
+
+  close(sockfd);
+  return 0;
+}
+```
