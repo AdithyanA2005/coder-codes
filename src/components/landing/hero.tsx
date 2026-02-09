@@ -15,14 +15,14 @@ export function Hero() {
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <Link
               href="/library"
-              className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-black shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-transform hover:scale-105 hover:bg-zinc-100"
+              className="focus-visible:focus-ring rounded-full bg-white px-6 py-3 text-sm font-semibold text-black shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-transform hover:scale-105 hover:bg-zinc-100"
             >
               Explore Programs
             </Link>
             <Link
               href="https://github.com/AdithyanA2005/CoderCodes"
               target="_blank"
-              className="text-sm leading-6 font-semibold text-white hover:text-zinc-300"
+              className="focus-visible:focus-ring-subtle text-sm leading-6 font-semibold text-white hover:text-zinc-300 focus-visible:rounded-md focus-visible:px-2 focus-visible:py-1"
             >
               View on GitHub <span aria-hidden="true">→</span>
             </Link>

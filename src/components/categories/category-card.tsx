@@ -13,7 +13,7 @@ export function CategoryCard({ category, count }: CategoryCardProps) {
   return (
     <Link
       href={`/categories/${category.slug}`}
-      className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-6 backdrop-blur-sm transition-all hover:border-cyan-500/30 hover:bg-zinc-900/80 hover:shadow-lg hover:shadow-cyan-900/10"
+      className="group focus-visible:focus-ring-subtle relative flex flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-6 backdrop-blur-sm transition-all hover:border-cyan-500/30 hover:bg-zinc-900/80 hover:shadow-lg hover:shadow-cyan-900/10 focus-visible:border-cyan-500/50 focus-visible:bg-zinc-900/80 focus-visible:shadow-lg focus-visible:shadow-cyan-900/20"
     >
       <div>
         <div className="mb-4 inline-flex rounded-lg bg-cyan-500/10 p-2.5 text-cyan-400 ring-1 ring-cyan-500/20 transition-colors group-hover:bg-cyan-500/20 group-hover:text-cyan-300">
