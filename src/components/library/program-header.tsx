@@ -17,11 +17,16 @@ export function ProgramHeader({ title, categoryName, categorySlug, date, descrip
           <div className="flex items-center gap-1.5 rounded-full border border-white/5 bg-white/5 px-3 py-1 text-xs font-medium text-zinc-400">
             <Calendar className="size-3" />
             <time dateTime={date}>
-              {new Date(date).toLocaleDateString("en-IN", {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-              })}
+              {(() => {
+                const dateStr = date.split("T")[0];
+                const [year, month, day] = dateStr.split("-").map(Number);
+                const localDate = new Date(year, month - 1, day);
+                return localDate.toLocaleDateString("en-IN", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                });
+              })()}
             </time>
           </div>
           <Link

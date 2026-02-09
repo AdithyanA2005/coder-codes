@@ -36,7 +36,7 @@ export function Footer() {
               <Link
                 href="https://adithyana.vercel.app"
                 target="_blank"
-                className="group flex items-center gap-2 rounded-full border border-white/5 bg-white/5 px-4 py-2 text-xs font-medium text-zinc-300 transition-colors hover:border-cyan-500/20 hover:bg-cyan-500/10 hover:text-cyan-200"
+                className="group focus-visible:focus-ring-subtle flex items-center gap-2 rounded-full border border-white/5 bg-white/5 px-4 py-2 text-xs font-medium text-zinc-300 transition-colors hover:border-cyan-500/20 hover:bg-cyan-500/10 hover:text-cyan-200 focus-visible:border-cyan-500/50 focus-visible:bg-cyan-500/20 focus-visible:text-cyan-200"
               >
                 <span>Built by Adithyan A</span>
                 <ArrowUpRight className="h-3 w-3 opacity-50 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -53,7 +53,7 @@ export function Footer() {
                   <li key={item.name}>
                     <Link
                       href={item.href}
-                      className="text-sm leading-6 text-zinc-400 transition-colors hover:text-cyan-400"
+                      className="focus-visible:focus-ring-subtle text-sm leading-6 text-zinc-400 transition-colors hover:text-cyan-400 focus-visible:rounded focus-visible:px-1 focus-visible:text-cyan-400"
                     >
                       {item.name}
                     </Link>
@@ -69,7 +69,7 @@ export function Footer() {
                     <Link
                       href={item.href}
                       target="_blank"
-                      className="group flex items-center gap-2 text-sm leading-6 text-zinc-400 transition-colors hover:text-white"
+                      className="group focus-visible:focus-ring-subtle flex items-center gap-2 text-sm leading-6 text-zinc-400 transition-colors hover:text-white focus-visible:rounded focus-visible:px-1 focus-visible:text-white"
                     >
                       <item.icon className="h-4 w-4 text-zinc-500 transition-colors group-hover:text-white" />
                       {item.name}

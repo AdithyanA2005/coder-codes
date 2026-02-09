@@ -4,7 +4,7 @@
 
 **CoderCodes** is a modern, high-performance web application designed to help Computer Science students explore, learn, and implement core algorithms and system programs. Built with the cutting-edge **Next.js 16** stack, it prioritizes speed, aesthetics, and developer experience.
 
-![Project Preview](/screenshot.png)
+![Project Preview](/.github/screenshot.png)
 
 ## 🚀 Key Features
 
@@ -22,7 +22,7 @@
 - **Icons**: Lucide React
 - **Content**: MDX + Gray Matter
 - **Typography**: Geist Sans & Geist Mono
-- **Tooling**: pnpm, ESLint, Prettier
+- **Tooling**: pnpm, ESLint, Prettier, mise
 
 ## 🏃‍♂️ Getting Started
 
@@ -30,6 +30,7 @@
 
 - Node.js 18+ (LTS Recommended)
 - pnpm (v9+ recommended)
+- Or use mise: `mise install`
 
 ### Installation
 
@@ -40,7 +41,15 @@
    cd CoderCodes
    ```
 
-2. **Install dependencies**
+2. **(Optional) Install tools with mise**
+
+   If you use mise, run:
+
+   ```bash
+   mise install
+   ```
+
+3. **Install dependencies**
 
    ```bash
    pnpm install
@@ -48,13 +57,13 @@
 
    > Note: We use `pnpm` for efficient package management.
 
-3. **Run the development server**
+4. **Run the development server**
 
    ```bash
    pnpm run dev
    ```
 
-4. **Open your browser**
+5. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000).
 
 ## 📂 Project Structure

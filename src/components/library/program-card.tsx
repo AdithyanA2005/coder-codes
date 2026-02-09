@@ -11,7 +11,7 @@ export function ProgramCard({ post, hideCategory = false }: ProgramCardProps) {
   return (
     <Link
       href={`/library/${post.slug}`}
-      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-6 backdrop-blur-sm transition-all hover:border-cyan-500/30 hover:bg-zinc-900/80 hover:shadow-lg hover:shadow-cyan-900/10"
+      className="group focus-visible:focus-ring-subtle relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/40 p-6 backdrop-blur-sm transition-all hover:border-cyan-500/30 hover:bg-zinc-900/80 hover:shadow-lg hover:shadow-cyan-900/10 focus-visible:border-cyan-500/50 focus-visible:bg-zinc-900/80 focus-visible:shadow-lg focus-visible:shadow-cyan-900/20"
     >
       <div className="relative flex flex-1 flex-col">
         {!hideCategory && (
@@ -37,11 +37,16 @@ export function ProgramCard({ post, hideCategory = false }: ProgramCardProps) {
           dateTime={post.frontmatter.date}
           className="text-xs font-medium tracking-wider text-zinc-400 transition-colors group-hover:text-zinc-400"
         >
-          {new Date(post.frontmatter.date).toLocaleDateString("en-IN", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          })}
+          {(() => {
+            const dateStr = post.frontmatter.date.split("T")[0];
+            const [year, month, day] = dateStr.split("-").map(Number);
+            const date = new Date(year, month - 1, day);
+            return date.toLocaleDateString("en-IN", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            });
+          })()}
         </time>
         <ArrowRightIcon className="size-4 text-zinc-400 transition-all group-hover:translate-x-1 group-hover:text-cyan-400" />
       </div>

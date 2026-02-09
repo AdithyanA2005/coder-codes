@@ -23,7 +23,7 @@ export function Navbar() {
             href="https://github.com/AdithyanA2005/CoderCodes"
             target="_blank"
             aria-label="GitHub"
-            className="hidden items-center gap-2 rounded-full bg-white/5 p-2 text-sm font-medium text-zinc-300 transition-colors hover:bg-white/10 hover:text-white min-[350px]:flex sm:px-3 sm:py-1.5"
+            className="focus-visible:focus-ring hidden items-center gap-2 rounded-full bg-white/5 p-2 text-sm font-medium text-zinc-300 transition-colors hover:bg-white/10 hover:text-white min-[350px]:flex sm:px-3 sm:py-1.5"
           >
             <GithubIcon className="size-4 sm:size-3.5" />
             <span className="hidden sm:inline">Star</span>
@@ -38,7 +38,7 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
   return (
     <Link
       href={href}
-      className="relative rounded-full px-2 py-1.5 text-sm font-medium text-zinc-400 transition-colors hover:bg-white/5 hover:text-white sm:px-4"
+      className="focus-visible:focus-ring relative rounded-full px-2 py-1.5 text-sm font-medium text-zinc-400 transition-colors hover:bg-white/5 hover:text-white sm:px-4"
     >
       {children}
     </Link>

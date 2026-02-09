@@ -18,14 +18,14 @@ export function CTA() {
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <Link
               href="/library"
-              className="rounded-full bg-cyan-500 px-8 py-3.5 text-sm font-semibold text-black shadow-lg shadow-cyan-500/20 transition-all hover:scale-105 hover:bg-cyan-400 hover:shadow-cyan-500/40"
+              className="focus-visible:focus-ring rounded-full bg-cyan-500 px-8 py-3.5 text-sm font-semibold text-black shadow-lg shadow-cyan-500/20 transition-all hover:scale-105 hover:bg-cyan-400 hover:shadow-cyan-500/40"
             >
               Go to Library
             </Link>
             <Link
               href="https://github.com/AdithyanA2005/CoderCodes"
               target="_blank"
-              className="text-sm leading-6 font-semibold text-white hover:text-cyan-300"
+              className="focus-visible:focus-ring-subtle text-sm leading-6 font-semibold text-white hover:text-cyan-300 focus-visible:rounded-md focus-visible:px-2 focus-visible:py-1"
             >
               Star on GitHub <span aria-hidden="true">→</span>
             </Link>
