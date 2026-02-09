@@ -37,11 +37,16 @@ export function ProgramCard({ post, hideCategory = false }: ProgramCardProps) {
           dateTime={post.frontmatter.date}
           className="text-xs font-medium tracking-wider text-zinc-400 transition-colors group-hover:text-zinc-400"
         >
-          {new Date(post.frontmatter.date).toLocaleDateString("en-IN", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-          })}
+          {(() => {
+            const dateStr = post.frontmatter.date.split("T")[0];
+            const [year, month, day] = dateStr.split("-").map(Number);
+            const date = new Date(year, month - 1, day);
+            return date.toLocaleDateString("en-IN", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            });
+          })()}
         </time>
         <ArrowRightIcon className="size-4 text-zinc-400 transition-all group-hover:translate-x-1 group-hover:text-cyan-400" />
       </div>
