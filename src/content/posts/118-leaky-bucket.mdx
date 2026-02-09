@@ -1,0 +1,82 @@
+---
+title: Implementation of Leaky Bucket Algorithm
+description: "To implement the leaky bucket algorithm to simulate network traffic shaping. It demonstrates how a buffer with fixed capacity handles random packet arrivals by adding packets when space is available, dropping excess packets when overflow occurs, and leaking packets at a constant rate to control data transmission and prevent network congestion."
+category: Network Lab
+date: "2026-02-09T23:00:00.000Z"
+---
+
+## Algorithms
+
+**Step 1:** Start  
+**Step 2:** Read bucket capacity, leak rate, simulation time  
+**Step 3:** Initialize bucket = 0  
+**Step 4:** Initialize random number generator  
+**Step 5:** For t = 0 to simulation_time-1 do:  
+  **Step 5.1:** Generate random incoming packets (10-100)  
+  **Step 5.2:** Display current time, incoming packets, bucket before  
+  **Step 5.3:** If bucket + incoming ≤ capacity then:  
+    bucket = bucket + incoming  
+    Display "incoming Added"  
+   Else:  
+    dropped = incoming - (capacity - bucket)  
+    bucket = capacity  
+    Display "dropped Dropped"  
+   End if  
+  **Step 5.4:** If bucket > leak_rate then:  
+    bucket = bucket - leak_rate  
+   Else:  
+    bucket = 0  
+   End if  
+  **Step 5.5:** Display bucket after leaking  
+**Step 6:** Stop
+
+---
+
+
+## Programs
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main() {
+    int capacity, leak_rate, simulation_time, incoming, bucket = 0;
+    
+    srand((unsigned)time(NULL));
+
+    printf("Enter bucket capacity: ");
+    scanf("%d", &capacity);
+    
+    printf("Enter leak rate: ");
+    scanf("%d", &leak_rate);
+    
+    printf("Enter simulation time: ");
+    scanf("%d", &simulation_time);
+
+    printf("\nTime | Incoming | Bucket Before | Action     | Bucket After\n");
+    printf("-----|----------|---------------|------------|---------------\n");
+
+    for (int t = 0; t < simulation_time; t++) {
+        printf("%4d |", t);
+        
+        incoming = (rand() % 91) + 10;
+        printf("%9d |", incoming);
+        printf("%14d |", bucket);
+        
+        if (bucket + incoming <= capacity) {
+            bucket += incoming;
+            printf(" %d Added  ", incoming);
+        } else {
+            int dropped = incoming - (capacity - bucket);
+            bucket = capacity;
+            printf(" %d Dropped", dropped);
+        }
+        
+        bucket = (bucket > leak_rate) ? bucket - leak_rate : 0;
+        printf(" | %d (Leaked %d)\n", bucket, leak_rate);
+    }
+
+    return 0;
+}
+```
