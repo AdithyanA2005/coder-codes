@@ -1,4 +1,5 @@
 import localFont from "next/font/local";
+import { CommandPalette } from "@/components/command-palette";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import { constructMetadata } from "@/lib/utils";
@@ -21,6 +22,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   return (
     <html lang="en" className="dark">
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
+        <CommandPalette />
         <div className="min-h-screen">
           <Navbar />
           {children}
