@@ -13,12 +13,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route === "" ? 1 : 0.8,
   }));
 
-  const postRoutes = posts.map((post) => ({
-    url: `${baseUrl}/library/${post.slug}`,
-    lastModified: new Date(post.frontmatter.date),
-    changeFrequency: "monthly" as const,
-    priority: 0.6,
-  }));
+  const postRoutes = posts.map((post) => {
+    const date = new Date(post.frontmatter.date);
+    const isValidDate = !isNaN(date.getTime());
+    return {
+      url: `${baseUrl}/library/${post.slug}`,
+      lastModified: isValidDate ? date : new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    };
+  });
 
   const categoryRoutes = categories.map((category) => ({
     url: `${baseUrl}/categories/${category.slug}`,
