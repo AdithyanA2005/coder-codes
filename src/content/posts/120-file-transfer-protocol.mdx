@@ -1,0 +1,183 @@
+---
+title: Implementation of File Transfer Protocol
+description: "This program implements the file transfer protocol to transfer files."
+category: Network Lab
+date: "2026-03-05T00:00.000Z"
+---
+
+## Algorithms
+
+### Server
+
+**Step 1:** Initialize networking
+
+- Create a TCP socket descriptor.
+- Fill a server address structure with AF_INET, INADDR_ANY, and port 5555.
+- Bind the socket to that address so the OS reserves the port.
+
+**Step 2:** Prepare to accept clients
+
+- Put the socket into listening mode with a reasonable backlog.
+- Block on accept until a client connects; obtain a dedicated client socket.
+
+**Step 3:** Receive the file
+
+- Open/create received_file.txt for binary writing.
+- Repeat until recv returns zero or negative:
+  - Read the next chunk of bytes from the client socket.
+  - Immediately write that chunk to the open file.
+- Close the file and the client socket.
+
+**Step 4:** Clean up
+
+- Close the original listening socket and terminate.
+
+### Client
+
+**Step 1:** Initialize networking
+
+- Create a TCP socket descriptor.
+- Fill a server address structure with AF_INET, IP 127.0.0.1, and port 5555.
+- Initiate a connect call to establish the TCP session with the server.
+
+**Step 2:** Send the file
+
+- Open send.txt for binary reading.
+- Repeat until the file reaches EOF:
+  - Read the next block (up to 1024 bytes) into a buffer.
+  - Transmit that block over the established socket.
+- Close the file once all data is sent.
+
+**Step 3:** Clean up
+
+- Close the socket connection and exit.
+
+---
+
+## Programs
+
+### Server
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+
+#define PORT 5555
+#define BUFFER_SIZE 1024
+
+void receive_file(int sock, char *filename) {
+    char buffer[BUFFER_SIZE];
+    FILE *fp = fopen(filename, "wb");
+    int n;
+
+    if (fp == NULL) {
+        printf("Error creating file\n");
+        return;
+    }
+
+    while ((n = recv(sock, buffer, BUFFER_SIZE, 0)) > 0) {
+        fwrite(buffer, 1, n, fp);
+    }
+
+    fclose(fp);
+    printf("File received: %s\n", filename);
+}
+
+int main() {
+    int server_fd, client_fd;
+    struct sockaddr_in server_addr, client_addr;
+    socklen_t addr_len;
+
+    server_fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (server_fd < 0) {
+        printf("Socket creation failed\n");
+        exit(1);
+    }
+
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = INADDR_ANY;
+    server_addr.sin_port = htons(PORT);
+
+    if (bind(server_fd, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
+        printf("Bind failed\n");
+        exit(1);
+    }
+
+    listen(server_fd, 5);
+    printf("Server listening on port %d...\n", PORT);
+
+    addr_len = sizeof(client_addr);
+    client_fd = accept(server_fd, (struct sockaddr*)&client_addr, &addr_len);
+    if (client_fd < 0) {
+        printf("Accept failed\n");
+        exit(1);
+    }
+
+    printf("Client connected.\n");
+    receive_file(client_fd, "received_file.txt");
+
+    close(client_fd);
+    close(server_fd);
+    return 0;
+}
+```
+
+### Client
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+
+#define PORT 5555
+#define BUFFER_SIZE 1024
+
+void send_file(int sock, char *filename) {
+    char buffer[BUFFER_SIZE];
+    FILE *fp = fopen(filename, "rb");
+    int n;
+
+    if (fp == NULL) {
+        printf("File not found: %s\n", filename);
+        return;
+    }
+
+    while ((n = fread(buffer, 1, BUFFER_SIZE, fp)) > 0) {
+        send(sock, buffer, n, 0);
+    }
+
+    fclose(fp);
+    printf("File sent: %s\n", filename);
+}
+
+int main() {
+    int sock;
+    struct sockaddr_in server_addr;
+
+    sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (sock < 0) {
+        printf("Socket creation failed\n");
+        exit(1);
+    }
+
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(PORT);
+    server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+    if (connect(sock, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
+        printf("Connection failed\n");
+        exit(1);
+    }
+
+    printf("Connected to server.\n");
+    send_file(sock, "send.txt");
+
+    close(sock);
+    return 0;
+}
+```
