@@ -1,0 +1,199 @@
+---
+title: Lexical analyzer in C to identify tokens
+description: "To implement a lexical analyzer in C that reads a source program from a file and categorizes its tokens as keywords, identifiers, constants, operators and special characters."
+category: Compiler Lab
+date: '2026-08-13T00:00.000Z'
+---
+
+## Algorithm
+
+**Step 1:** Start the program.
+
+**Step 2:** Open the input file `program.txt` in read mode.
+
+**Step 3:** Read the file character by character until EOF.
+
+**Step 4:** If the character is a letter or underscore, accumulate it into `buffer` (forming an identifier or keyword).
+
+**Step 5:** When a non-alphanumeric character or EOF is reached, check the accumulated buffer against the list of 32 C keywords:
+   - If it matches a keyword, print "token is Keyword".
+   - Otherwise, print "token is Identifier".
+
+**Step 6:** If the character is a digit, accumulate it into `number`. When a non-digit character or EOF is reached, print "number is Constant".
+
+**Step 7:** If the character is an operator (`+`, `-`, `*`, `/`, `%`, `=`), print "char is Operator".
+
+**Step 8:** If the character is a special character (`;`, `,`, `(`, `)`, `{`, `}`, `[`, `]`), print "char is Special Character".
+
+**Step 9:** After EOF, process any remaining tokens still held in `buffer` and `number`.
+
+**Step 10:** Close the file and stop the program.
+
+## Program
+
+### program.c
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+int isKeyword(char buffer[])
+{
+    char keywords[][10] = {
+        "auto","break","case","char","const","continue","default",
+        "do","double","else","enum","extern","float","for","goto",
+        "if","int","long","register","return","short","signed",
+        "sizeof","static","struct","switch","typedef","union",
+        "unsigned","void","volatile","while"
+    };
+
+    int i;
+    for(i = 0; i < 32; i++)
+    {
+        if(strcmp(buffer, keywords[i]) == 0)
+            return 1;
+    }
+    return 0;
+}
+
+int main()
+{
+    FILE *fp;
+    char ch;
+    char buffer[100];
+    char number[100];
+    int j = 0, k = 0;
+
+    fp = fopen("program.txt", "r");
+
+    if(fp == NULL)
+    {
+        printf("Cannot open file.\n");
+        return 0;
+    }
+
+    while((ch = fgetc(fp)) != EOF)
+    {
+        if(isalpha(ch) || ch == '_')
+        {
+            buffer[j++] = ch;
+        }
+        else
+        {
+            if(j > 0)
+            {
+                buffer[j] = '\0';
+
+                if(isKeyword(buffer))
+                    printf("%s is Keyword\n", buffer);
+                else
+                    printf("%s is Identifier\n", buffer);
+
+                j = 0;
+            }
+        }
+
+        if(isdigit(ch))
+        {
+            number[k++] = ch;
+        }
+        else
+        {
+            if(k > 0)
+            {
+                number[k] = '\0';
+                printf("%s is Constant\n", number);
+                k = 0;
+            }
+        }
+
+        if(ch=='+' || ch=='-' || ch=='*' || ch=='/' ||
+           ch=='%' || ch=='=')
+        {
+            printf("%c is Operator\n", ch);
+        }
+
+        if(ch==';' || ch==',' || ch=='(' || ch==')' ||
+           ch=='{' || ch=='}' || ch=='[' || ch==']')
+        {
+            printf("%c is Special Character\n", ch);
+        }
+    }
+
+    /* Print remaining token if EOF occurs */
+    if(j > 0)
+    {
+        buffer[j] = '\0';
+        if(isKeyword(buffer))
+            printf("%s is Keyword\n", buffer);
+        else
+            printf("%s is Identifier\n", buffer);
+    }
+
+    if(k > 0)
+    {
+        number[k] = '\0';
+        printf("%s is Constant\n", number);
+    }
+
+    fclose(fp);
+    return 0;
+}
+```
+
+### program.txt
+
+```c
+int main()
+{
+    int a = 10;
+    float b = 20;
+    a = a + b;
+    return 0;
+}
+```
+
+## How to Run
+
+**Step 1:** Compile `program.c` using `gcc`.
+
+**Step 2:** Run the executable. The file `program.txt` must be present in the same directory as the executable.
+
+```bash
+gcc program.c
+./a.out
+```
+
+### Sample Output
+
+For the `program.txt` given above the output is:
+
+```
+int is Keyword
+main is Identifier
+( is Special Character
+) is Special Character
+{ is Special Character
+int is Keyword
+a is Identifier
+= is Operator
+10 is Constant
+; is Special Character
+float is Keyword
+b is Identifier
+= is Operator
+20 is Constant
+; is Special Character
+a is Identifier
+= is Operator
+a is Identifier
++ is Operator
+b is Identifier
+; is Special Character
+return is Keyword
+0 is Constant
+; is Special Character
+} is Special Character
+```

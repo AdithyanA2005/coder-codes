@@ -1,0 +1,100 @@
+---
+title: Count the number of lines, words and characters in a file using LEX
+description: "To implement a LEX program that counts the number of lines, words and characters present in a given input file."
+category: Compiler Lab
+date: '2026-08-13T00:00.000Z'
+---
+
+## Algorithm
+
+**Step 1:** Start the program.
+
+**Step 2:** Initialize the counters `line`, `word` and `ch` to 0.
+
+**Step 3:** Open the input file passed as a command-line argument using `fopen()`.
+
+**Step 4:** Scan the file using `yylex()`.
+
+**Step 5:** Increment the character count `ch` for every alphabet or digit.
+
+**Step 6:** Increment the word count `word` whenever a space is encountered.
+
+**Step 7:** Increment both the line count and word count whenever a newline is encountered.
+
+**Step 8:** Display the number of lines, words and characters.
+
+**Step 9:** Stop the program.
+
+## Program
+
+### program.l
+
+```lex
+%{
+#include <stdio.h>
+
+int line = 0, word = 0, ch = 0;
+FILE *yyin;
+%}
+
+%%
+
+[a-zA-Z0-9]   { ch++; }
+" "           { word++; }
+\n            { line++; word++; }
+.             ;
+
+%%
+
+int main(int argc, char *argv[])
+{
+    yyin = fopen(argv[1], "r");
+    yylex();
+
+    printf("line=%d\n", line);
+    printf("word=%d\n", word);
+    printf("character=%d\n", ch);
+
+    return 0;
+}
+
+int yywrap(void)
+{
+    return 1;
+}
+```
+
+### input.txt
+
+```text
+Hello
+how are
+```
+
+## How to Run
+
+**Step 1:** Generate the scanner from `program.l` using `flex`.
+
+**Step 2:** Compile the generated `lex.yy.c` using `gcc`.
+
+**Step 3:** Run the executable by passing the input file as an argument.
+
+```bash
+flex program.l
+gcc lex.yy.c -lfl
+./a.out input.txt
+```
+
+> The program defines its own `yywrap()`, so if `libfl` is not available on your system (e.g., on macOS), it will still work by dropping the `-lfl` flag: `gcc lex.yy.c`.
+
+### Sample Output
+
+For the `input.txt` given above the output is:
+
+```
+line=2
+word=3
+character=11
+```
+
+*(The output depends on the contents of the input file.)*

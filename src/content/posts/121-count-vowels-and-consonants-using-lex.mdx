@@ -1,0 +1,86 @@
+---
+title: Count the number of vowels and consonants in a string using LEX
+description: "To implement a LEX program that counts the total number of vowels and consonants present in a given input string."
+category: Compiler Lab
+date: '2026-08-13T00:00.000Z'
+---
+
+## Algorithm
+
+**Step 1:** Start the program.
+
+**Step 2:** Initialize the counters `vow_count` and `const_count` to 0.
+
+**Step 3:** Read the input string using the LEX scanner (`yylex()`).
+
+**Step 4:** Scan each character of the input.
+
+**Step 5:** If the character is a vowel (`a, e, i, o, u` or `A, E, I, O, U`), increment `vow_count`.
+
+**Step 6:** If the character is an alphabet other than a vowel, increment `const_count`.
+
+**Step 7:** Continue scanning until the end of the input.
+
+**Step 8:** Display the total number of vowels and consonants.
+
+**Step 9:** Stop the program.
+
+## Program
+
+```lex
+%{
+#include <stdio.h>
+
+int vow_count = 0;
+int const_count = 0;
+%}
+
+%%
+
+[aeiouAEIOU]    { vow_count++; }
+[a-zA-Z]        { const_count++; }
+\n              { return 0; }
+.               ;
+
+%%
+
+int yywrap()
+{
+    return 1;
+}
+
+int main()
+{
+    printf("Enter the string of vowels and consonants: ");
+    yylex();
+
+    printf("Number of vowels are: %d\n", vow_count);
+    printf("Number of consonants are: %d\n", const_count);
+
+    return 0;
+}
+```
+
+## How to Run
+
+**Step 1:** Generate the scanner from `program.l` using `flex`.
+
+**Step 2:** Compile the generated `lex.yy.c` using `gcc`.
+
+**Step 3:** Run the resulting executable.
+
+```bash
+flex program.l
+gcc lex.yy.c -lfl
+./a.out
+```
+
+> The program defines its own `yywrap()`, so if `libfl` is not available on your system (e.g., on macOS), it will still work by dropping the `-lfl` flag: `gcc lex.yy.c`.
+
+### Sample Input & Output
+
+```
+Enter the string of vowels and consonants: CompilerLab
+Number of vowels are: 4
+Number of consonants are: 7
+```

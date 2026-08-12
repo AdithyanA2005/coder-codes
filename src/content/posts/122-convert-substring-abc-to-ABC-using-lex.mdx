@@ -1,0 +1,98 @@
+---
+title: Convert the substring "abc" to "ABC" using LEX
+description: "To implement a LEX program that converts every occurrence of the substring \"abc\" into \"ABC\" in the given input string."
+category: Compiler Lab
+date: '2026-08-13T00:00.000Z'
+---
+
+## Algorithm
+
+**Step 1:** Start the program.
+
+**Step 2:** Read the input string using the LEX scanner.
+
+**Step 3:** Match the alphabetic characters from the input.
+
+**Step 4:** Traverse the matched string character by character.
+
+**Step 5:** Check whether the current position contains the substring "abc".
+
+**Step 6:** If found, replace "abc" with "ABC".
+
+**Step 7:** Continue scanning until the end of the string.
+
+**Step 8:** Display the modified string.
+
+**Step 9:** Stop the program.
+
+## Program
+
+```lex
+%{
+#include <stdio.h>
+#include <string.h>
+
+int i;
+%}
+
+%%
+
+[a-zA-Z]+ {
+    for(i = 0; i < yyleng-2; i++)
+    {
+        if(yytext[i] == 'a' &&
+           yytext[i+1] == 'b' &&
+           yytext[i+2] == 'c')
+        {
+            yytext[i] = 'A';
+            yytext[i+1] = 'B';
+            yytext[i+2] = 'C';
+        }
+    }
+    printf("%s", yytext);
+}
+.          { ECHO; }
+
+%%
+
+int main()
+{
+    yylex();
+    return 0;
+}
+
+int yywrap()
+{
+    return 1;
+}
+```
+
+## How to Run
+
+**Step 1:** Generate the scanner from `program.l` using `flex`.
+
+**Step 2:** Compile the generated `lex.yy.c` using `gcc`.
+
+**Step 3:** Run the resulting executable and type the input string.
+
+```bash
+flex program.l
+gcc lex.yy.c -lfl
+./a.out
+```
+
+> The program defines its own `yywrap()`, so if `libfl` is not available on your system (e.g., on macOS), it will still work by dropping the `-lfl` flag: `gcc lex.yy.c`.
+
+### Sample Input & Output
+
+Input string:
+
+```
+abc hello xabc yzabc
+```
+
+Output:
+
+```
+ABC hello xABC yzABC
+```

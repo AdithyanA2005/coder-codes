@@ -1,0 +1,223 @@
+---
+title: Implementation of an arithmetic calculator using LEX and YACC
+description: "To implement an arithmetic calculator using LEX and YACC that accepts arithmetic expressions, checks whether they are syntactically valid, and evaluates the result."
+category: Compiler Lab
+date: '2026-08-13T00:00.000Z'
+---
+
+## Algorithm
+
+### LEX (Lexical Analyzer)
+
+**Step 1:** Include the required header files.
+
+**Step 2:** Read the input expression character by character.
+
+**Step 3:** Identify numeric values using the regular expression `[0-9]+`.
+
+**Step 4:** Convert the identified numbers into integer values using `atoi()` and store them in `yylval`.
+
+**Step 5:** Return the token `NUMBER` to the YACC parser.
+
+**Step 6:** Ignore spaces and tab characters.
+
+**Step 7:** Return arithmetic operators (`+`, `-`, `*`, `/`, `%`) and parentheses (`(`, `)`) as individual tokens.
+
+**Step 8:** Stop scanning when the end of the input is reached.
+
+### YACC (Parser)
+
+**Step 1:** Receive tokens from the lexical analyzer.
+
+**Step 2:** Parse the input according to the grammar of arithmetic expressions.
+
+**Step 3:** Apply operator precedence and associativity (`+`, `-` are left associative with lower precedence; `*`, `/`, `%` are left associative with higher precedence).
+
+**Step 4:** Perform arithmetic operations such as addition, subtraction, multiplication, division, and modulus. Division and modulus by zero are checked and rejected.
+
+**Step 5:** Evaluate expressions enclosed within parentheses.
+
+**Step 6:** Display the calculated result if the expression is syntactically valid.
+
+**Step 7:** Display an error message if the expression contains invalid syntax.
+
+## Program
+
+### program.l
+
+```lex
+%{
+#include <stdio.h>
+#include <stdlib.h>
+#include "y.tab.h"
+
+extern int yylval;
+%}
+
+%%
+
+[0-9]+      {
+                yylval = atoi(yytext);
+                return NUMBER;
+            }
+
+[ \t]+      ;          /* Ignore spaces and tabs */
+
+\n          return 0;
+
+.           return yytext[0];
+
+%%
+
+int yywrap(void)
+{
+    return 1;
+}
+```
+
+### program.y
+
+```yacc
+%{
+#include <stdio.h>
+#include <stdlib.h>
+
+int yylex(void);
+void yyerror(const char *s);
+
+int flag = 0;
+%}
+
+%token NUMBER
+
+%left '+' '-'
+%left '*' '/' '%'
+
+%%
+
+ArithmeticExpression
+    : E
+      {
+          printf("\nResult = %d\n", $1);
+          return 0;
+      }
+    ;
+
+E
+    : E '+' E   { $$ = $1 + $3; }
+    | E '-' E   { $$ = $1 - $3; }
+    | E '*' E   { $$ = $1 * $3; }
+    | E '/' E
+      {
+          if ($3 == 0)
+          {
+              printf("Division by zero is not allowed.\n");
+              YYABORT;
+          }
+          $$ = $1 / $3;
+      }
+    | E '%' E
+      {
+          if ($3 == 0)
+          {
+              printf("Modulo by zero is not allowed.\n");
+              YYABORT;
+          }
+          $$ = $1 % $3;
+      }
+    | '(' E ')' { $$ = $2; }
+    | NUMBER    { $$ = $1; }
+    ;
+
+%%
+
+int main(void)
+{
+    printf("Enter an arithmetic expression:\n");
+    yyparse();
+
+    if (flag == 0)
+        printf("Entered arithmetic expression is Valid\n");
+
+    return 0;
+}
+
+void yyerror(const char *s)
+{
+    printf("Entered arithmetic expression is Invalid\n");
+    flag = 1;
+}
+```
+
+## How to Run
+
+**Step 1:** Generate the scanner from `program.l` using `flex`. This creates `lex.yy.c`.
+
+**Step 2:** Generate the parser from `program.y` using `bison`. This creates `y.tab.c` and `y.tab.h`.
+
+**Step 3:** Compile both generated files together using `gcc`.
+
+**Step 4:** Run the resulting executable.
+
+```bash
+flex program.l
+bison -dy program.y
+gcc lex.yy.c y.tab.c -lfl
+./a.out
+```
+
+> The program defines its own `yywrap()`, so if `libfl` is not available on your system (e.g., on macOS), it will still work by dropping the `-lfl` flag: `gcc lex.yy.c y.tab.c`.
+
+### Sample Input & Output
+
+Valid expressions:
+
+```
+Enter an arithmetic expression:
+2 + 3 * 4
+
+Result = 14
+Entered arithmetic expression is Valid
+```
+
+```
+Enter an arithmetic expression:
+5 * (4 + 2)
+
+Result = 30
+Entered arithmetic expression is Valid
+```
+
+```
+Enter an arithmetic expression:
+10 % 3
+
+Result = 1
+Entered arithmetic expression is Valid
+```
+
+Invalid expressions:
+
+```
+Enter an arithmetic expression:
+2+
+
+Entered arithmetic expression is Invalid
+```
+
+```
+Enter an arithmetic expression:
+(2+3
+
+Entered arithmetic expression is Invalid
+```
+
+Division by zero:
+
+```
+Enter an arithmetic expression:
+6 / 0
+
+Division by zero is not allowed.
+Entered arithmetic expression is Valid
+```

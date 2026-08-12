@@ -1,0 +1,160 @@
+---
+title: Recursive descent parser for arithmetic expressions
+description: "To design and implement a top-down recursive descent parser that verifies whether a given arithmetic expression string is valid according to the grammar E → T E', E' → + T E' | ε, T → F T', T' → * F T' | ε, F → ( E ) | id."
+category: Compiler Lab
+date: '2026-08-13T00:00.000Z'
+---
+
+## Introduction
+
+A **recursive descent parser** is a top-down parser built from a set of mutually recursive procedures, each corresponding to one non-terminal of the grammar. Since it is a top-down parser, the grammar must be free of left recursion.
+
+The grammar used here is the classic arithmetic expression grammar (with `id` implemented as the literal character `a`):
+
+- **E → T E'**
+- **E' → + T E' | ε**
+- **T → F T'**
+- **T' → * F T' | ε**
+- **F → ( E ) | id**
+
+Each non-terminal (`E`, `E'`, `T`, `T'`, `F`) is implemented as a separate C function that looks at the current input character and matches its productions.
+
+## Algorithm
+
+**Step 1:** Start the program.
+
+**Step 2:** Read the input string.
+
+**Step 3:** Initialize the input index `i` and the error flag `error` to 0.
+
+**Step 4:** Begin parsing by calling `E()` (the start symbol).
+
+**Step 5:** `E()` implements `E → T E'`:
+   - Call `T()`.
+   - Call `Eprime()`.
+
+**Step 6:** `Eprime()` implements `E' → + T E' | ε`:
+   - If the current character is `+`, advance the index, call `T()`, then call `Eprime()` recursively.
+   - Otherwise, do nothing (matches ε).
+
+**Step 7:** `T()` implements `T → F T'`:
+   - Call `F()`.
+   - Call `Tprime()`.
+
+**Step 8:** `Tprime()` implements `T' → * F T' | ε`:
+   - If the current character is `*`, advance the index, call `F()`, then call `Tprime()` recursively.
+   - Otherwise, do nothing (matches ε).
+
+**Step 9:** `F()` implements `F → ( E ) | id`:
+   - If the current character is `a`, advance the index (matched `id`).
+   - Else if it is `(`, advance, call `E()`, and expect a closing `)`.
+   - Otherwise, set the error flag.
+
+**Step 10:** If the entire input has been consumed (`i == strlen(input)`) and no error occurred, print `Accepted`. Otherwise, print `Rejected`.
+
+## Program
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+char input[100];
+int i = 0, error = 0;
+
+void E();
+void T();
+void Eprime();
+void Tprime();
+void F();
+
+int main() {
+   printf("Recursive Descent Parser for arithmetic expressions containing '+' and '*' (e.g., a+a*a)\n");
+   printf("Enter an arithmetic expression: ");
+   scanf("%s", input);
+   
+   i = 0;
+   error = 0;
+   
+   E(); // Initialize parsing from start symbol
+   
+   if (strlen(input) == i && error == 0) {
+       printf("\nAccepted..!!!\n");
+   } else {
+       printf("\nRejected..!!!\n");
+   }
+   return 0;
+}
+
+void E() {
+   T();
+   Eprime();
+}
+
+void Eprime() {
+   if (input[i] == '+') {
+       i++;
+       T();
+       Eprime();
+   }
+}
+
+void T() {
+   F();
+   Tprime();
+}
+
+void Tprime() {
+   if (input[i] == '*') {
+       i++;
+       F();
+       Tprime();
+   }
+}
+
+void F() {
+   if (input[i] == 'a') {
+       i++;
+   } else if (input[i] == '(') {
+       i++;
+       E();
+       if (input[i] == ')') {
+           i++;
+       } else {
+           error = 1;
+       }
+   } else {
+       error = 1;
+   }
+}
+```
+
+## How to Run
+
+**Step 1:** Compile `program.c` using `gcc`.
+
+**Step 2:** Run the executable and enter an arithmetic expression built from `a`, `+`, `*` and parentheses.
+
+```bash
+gcc program.c
+./a.out
+```
+
+### Sample Input & Output
+
+```
+Recursive Descent Parser for arithmetic expressions containing '+' and '*' (e.g., a+a*a)
+Enter an arithmetic expression: a+a*a
+
+Accepted..!!!
+```
+
+### Test Cases
+
+The parser gives the following verdicts:
+
+- `a+a*a` → **Accepted**
+- `(a+a)*a` → **Accepted**
+- `(a+a*a` → **Rejected** (missing closing parenthesis)
+- `a-a+a` → **Rejected** (operator `-` is not in the grammar)
+- `a+a)*a` → **Rejected** (unmatched closing parenthesis)
+- `(b*a)` → **Rejected** (character `b` is not a valid identifier)
