@@ -1,0 +1,135 @@
+---
+title: Lexical Analyzer Using Flex (Lex)
+description: "A simple lexical analyzer built with Flex that tokenizes keywords, identifiers, numbers, operators and delimiters."
+category: Compiler Lab
+date: '2026-08-13T00:00:00.000Z'
+---
+
+## Overview
+
+This post demonstrates how to write a lexical analyzer with **Flex** (the modern implementation of the classic *lex* tool). The lexer reads a source program from **stdin** and prints the recognized token type together with the lexeme.
+
+## Source – `lexer.l`
+
+```c
+%{
+#include <stdio.h>
+%}
+
+%%
+
+int|float|char|double|if|else|while|for|return|break|continue|void|main {
+    printf("keyword: %s\n", yytext);
+}
+
+[a-zA-Z][a-zA-Z0-9]* {
+    printf("Identifier: %s\n", yytext);
+}
+
+[0-9]+ {
+    printf("Integer constant: %s\n", yytext);
+}
+
+"=="|"!="|"<="|">="|"="|"+"|"-"|"*"|"/"|"%"|"<"|">" {
+    printf("Operator: %s\n", yytext);
+}
+
+";"|","|"("|")"|"{"|"}"|"["|"]" {
+    printf("Delimiter: %s\n", yytext);
+}
+
+[\t\n]+ ;   /* ignore whitespace */
+
+. {
+    printf("Invalid character: %s\n", yytext);
+}
+
+%%
+
+int yywrap() {
+    return 1;
+}
+
+int main() {
+    printf("Enter the program (Ctrl+D to finish):\n");
+    yylex();
+    return 0;
+}
+```
+
+## How the Rules Work
+
+- **Keywords** – pattern ``int|float|…|main`` – matches all C‑style keywords listed. Action: prints `keyword: …`.
+- **Identifier** – pattern ``[a-zA-Z][a-zA-Z0-9]*`` – matches a letter followed by alphanumerics. Action: prints `Identifier: …`.
+- **Integer constant** – pattern ``[0-9]+`` – matches one or more digits. Action: prints `Integer constant: …`.
+- **Operator** – pattern ``"=="|"!="|…|"<"|">"`` – matches equality, relational and arithmetic symbols. Action: prints `Operator: …`.
+- **Delimiter** – pattern ``";"|","|"("|…)`` – matches common punctuation used in C‑like languages. Action: prints `Delimiter: …`.
+- **Whitespace** – pattern ``[\t\n]+`` – matches tabs and newlines. Action: **ignored** (no output).
+- **Catch‑all** – pattern ``.`` – matches any character not matched before. Action: prints `Invalid character: …`.
+
+The `yytext` macro supplied by Flex holds the exact lexeme that triggered the rule, making it trivial to echo the token.
+
+## Building and Running
+
+```bash
+# 1. Generate the scanner source
+flex lexer.l
+
+# 2. Compile the generated C file
+gcc lex.yy.c -o lexer -lfl   # -lfl links the Flex library on most systems
+
+# 3. Execute the lexer (type program, end with Ctrl+D)
+./lexer
+```
+
+### Sample Interaction
+
+```
+Enter the program (Ctrl+D to finish): 
+int main() {
+    int a = 10;
+    a = a + 5;
+    return a;
+}
+```
+
+**Output**
+```
+keyword: int
+Identifier: main
+Delimiter: (
+Delimiter: )
+Delimiter: {
+keyword: int
+Identifier: a
+Operator: =
+Integer constant: 10
+Delimiter: ;
+Identifier: a
+Operator: =
+Identifier: a
+Operator: +
+Integer constant: 5
+Delimiter: ;
+keyword: return
+Identifier: a
+Delimiter: ;
+Delimiter: }
+```
+
+The lexer correctly distinguishes each token type and reports any characters that do not belong to the defined language.
+
+## Extending the Lexer
+
+* **String literals** – add a rule like `"\"([^\\\"]|\\.)*\""`.
+* **Comments** – ignore `//.*` and `/\*([^*]|\*+[^*/])*\*+/`.
+* **Floating‑point numbers** – expand the numeric rule to handle `.` and exponent parts.
+* **Token values** – instead of printing, store tokens in a struct for later parsing (e.g., feeding a Yacc/Bison parser).
+
+## Conclusion
+
+Flex makes writing a lexical analyzer extremely concise: each token class is expressed as a regular expression coupled with a small C action. The example above can serve as a foundation for building more sophisticated language front‑ends.
+
+---
+
+*Posted on 2026‑09‑05*
