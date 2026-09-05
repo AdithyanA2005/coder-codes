@@ -50,7 +50,11 @@ export function getAllPosts(): Post[] {
     });
   });
 
-  return posts.sort((post1, post2) => (post1.frontmatter.date > post2.frontmatter.date ? -1 : 1));
+  return posts.sort((post1, post2) => {
+    if (post1.frontmatter.date > post2.frontmatter.date) return -1;
+    if (post1.frontmatter.date < post2.frontmatter.date) return 1;
+    return post1.slug.localeCompare(post2.slug);
+  });
 }
 
 export function slugify(text: string) {
@@ -100,5 +104,9 @@ export function getPostsByCategorySlug(slug: string): Post[] {
     }
   });
 
-  return posts.sort((post1, post2) => (post1.frontmatter.date > post2.frontmatter.date ? -1 : 1));
+  return posts.sort((post1, post2) => {
+    if (post1.frontmatter.date > post2.frontmatter.date) return -1;
+    if (post1.frontmatter.date < post2.frontmatter.date) return 1;
+    return post1.slug.localeCompare(post2.slug);
+  });
 }
