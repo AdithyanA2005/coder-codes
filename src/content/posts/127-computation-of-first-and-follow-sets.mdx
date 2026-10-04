@@ -2,7 +2,7 @@
 title: Computation of FIRST and FOLLOW sets
 description: "To implement a C program to compute the FIRST and FOLLOW sets of the non-terminals of a given context-free grammar."
 category: Compiler Lab
-date: '2026-08-13T00:00:00.000Z'
+date: "2026-08-13T06:00:00.000Z"
 ---
 
 ## Introduction
@@ -28,13 +28,15 @@ The rules used by the program are:
 **Step 4:** Collect all non-terminals from the left-hand sides.
 
 **Step 5:** For each non-terminal, compute `FIRST`:
-   - If the symbol is a terminal, add it directly.
-   - For each production `A → α`, compute FIRST of the symbols in `α` one by one, stopping when a symbol whose FIRST does not contain `#` is reached.
-   - If every symbol in `α` can derive epsilon, add `#` to `FIRST(A)`.
+
+- If the symbol is a terminal, add it directly.
+- For each production `A → α`, compute FIRST of the symbols in `α` one by one, stopping when a symbol whose FIRST does not contain `#` is reached.
+- If every symbol in `α` can derive epsilon, add `#` to `FIRST(A)`.
 
 **Step 6:** For each non-terminal, compute `FOLLOW`:
-   - Add `$` to FOLLOW of the start symbol.
-   - For every occurrence of a non-terminal `B` in a production `A → αBβ`, add `FIRST(β) - {#}` to `FOLLOW(B)`. If `β` can derive epsilon, add `FOLLOW(A)` to `FOLLOW(B)`.
+
+- Add `$` to FOLLOW of the start symbol.
+- For every occurrence of a non-terminal `B` in a production `A → αBβ`, add `FIRST(β) - {#}` to `FOLLOW(B)`. If `β` can derive epsilon, add `FOLLOW(A)` to `FOLLOW(B)`.
 
 **Step 7:** Display the FIRST and FOLLOW sets of every non-terminal.
 

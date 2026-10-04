@@ -2,7 +2,7 @@
 title: Lexical analyzer in C to identify tokens
 description: "To implement a lexical analyzer in C that reads a source program from a file and categorizes its tokens as keywords, identifiers, constants, operators and special characters."
 category: Compiler Lab
-date: '2026-08-13T00:00:00.000Z'
+date: "2026-08-13T04:00:00.000Z"
 ---
 
 ## Algorithm
@@ -16,8 +16,9 @@ date: '2026-08-13T00:00:00.000Z'
 **Step 4:** If the character is a letter or underscore, accumulate it into `buffer` (forming an identifier or keyword).
 
 **Step 5:** When a non-alphanumeric character or EOF is reached, check the accumulated buffer against the list of 32 C keywords:
-   - If it matches a keyword, print "token is Keyword".
-   - Otherwise, print "token is Identifier".
+
+- If it matches a keyword, print "token is Keyword".
+- Otherwise, print "token is Identifier".
 
 **Step 6:** If the character is a digit, accumulate it into `number`. When a non-digit character or EOF is reached, print "number is Constant".
 
