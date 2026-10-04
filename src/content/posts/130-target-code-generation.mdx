@@ -1,0 +1,150 @@
+---
+title: Target code generation
+description: "To implement a C program that reads three-address code from a file and generates equivalent target (assembly) code using a single register R0."
+category: Compiler Lab
+date: "2026-10-04T01:00:00.000Z"
+---
+
+## Introduction
+
+**Target code generation** is the final phase of compilation, where intermediate (three-address) code is translated into machine or assembly code for a target machine.
+
+This program reads three-address instructions of the form:
+
+```
+op arg1 arg2 result
+```
+
+where `op` is one of `+`, `-`, `*`, `/`, and emits simple assembly code using a single register `R0`:
+
+- `MOV R0, arg1` — load the first operand into the register.
+- `ADD / SUB / MUL / DIV R0, arg2` — perform the operation with the second operand.
+- `MOV result, R0` — store the register content into the result.
+
+## Algorithm
+
+**Step 1:** Start the program.
+
+**Step 2:** Open `input.txt` in read mode and `output.txt` in write mode.
+
+**Step 3:** Repeatedly read four strings `op`, `arg1`, `arg2`, `result` from `input.txt` until end of file.
+
+**Step 4:** For each instruction, compare `op`:
+
+- If `op` is `+`, write `MOV R0,arg1`, `ADD R0,arg2`, `MOV result,R0` to `output.txt`.
+- If `op` is `-`, write `MOV R0,arg1`, `SUB R0,arg2`, `MOV result,R0`.
+- If `op` is `*`, write `MOV R0,arg1`, `MUL R0,arg2`, `MOV result,R0`.
+- If `op` is `/`, write `MOV R0,arg1`, `DIV R0,arg2`, `MOV result,R0`.
+
+**Step 5:** Close both files.
+
+**Step 6:** Stop the program.
+
+## Program
+
+### program.c
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+char op[2], arg1[5], arg2[5], result[5];
+
+int main()
+{
+    FILE *fp1, *fp2;
+    fp1 = fopen("input.txt", "r");
+    fp2 = fopen("output.txt", "w");
+
+    while (fscanf(fp1, "%s%s%s%s", op, arg1, arg2, result) != EOF)
+    {
+        if (strcmp(op, "+") == 0)
+        {
+            fprintf(fp2, "\nMOV R0,%s", arg1);
+            fprintf(fp2, "\nADD R0,%s", arg2);
+            fprintf(fp2, "\nMOV %s,R0", result);
+        }
+        else if (strcmp(op, "-") == 0)
+        {
+            fprintf(fp2, "\nMOV R0,%s", arg1);
+            fprintf(fp2, "\nSUB R0,%s", arg2);
+            fprintf(fp2, "\nMOV %s,R0", result);
+        }
+        else if (strcmp(op, "*") == 0)
+        {
+            fprintf(fp2, "\nMOV R0,%s", arg1);
+            fprintf(fp2, "\nMUL R0,%s", arg2);
+            fprintf(fp2, "\nMOV %s,R0", result);
+        }
+        else if (strcmp(op, "/") == 0)
+        {
+            fprintf(fp2, "\nMOV R0,%s", arg1);
+            fprintf(fp2, "\nDIV R0,%s", arg2);
+            fprintf(fp2, "\nMOV %s,R0", result);
+        }
+    }
+
+    fclose(fp1);
+    fclose(fp2);
+    return 0;
+}
+```
+
+### input.txt
+
+```
++ A B C
+- D E F
+* G H I
+/ J K L
+```
+
+## How to Run
+
+**Step 1:** Compile `program.c` using `gcc`.
+
+**Step 2:** Place `input.txt` in the same directory as the executable. Each line must contain four space-separated fields: `operator operand1 operand2 result`.
+
+**Step 3:** Run the executable. The generated target code is written to `output.txt`.
+
+```bash
+gcc program.c
+./a.out
+```
+
+### Sample Input & Output
+
+Input (`input.txt`):
+
+```
++ A B C
+- D E F
+* G H I
+/ J K L
+```
+
+Output (`output.txt`):
+
+```
+MOV R0,A
+ADD R0,B
+MOV C,R0
+MOV R0,D
+SUB R0,E
+MOV F,R0
+MOV R0,G
+MUL R0,H
+MOV I,R0
+MOV R0,J
+DIV R0,K
+MOV L,R0
+```
+
+### Test Cases
+
+The mapping performed for each operator is:
+
+- `+ A B C` → `MOV R0,A`, `ADD R0,B`, `MOV C,R0`
+- `- D E F` → `MOV R0,D`, `SUB R0,E`, `MOV F,R0`
+- `* G H I` → `MOV R0,G`, `MUL R0,H`, `MOV I,R0`
+- `/ J K L` → `MOV R0,J`, `DIV R0,K`, `MOV L,R0`
