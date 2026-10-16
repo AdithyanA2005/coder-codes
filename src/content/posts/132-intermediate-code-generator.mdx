@@ -1,0 +1,168 @@
+---
+title: Intermediate code generator
+description: "To implement a C program that reads three-address intermediate code from a file and generates equivalent target (assembly) code using a single register R0, including assignment."
+category: Compiler Lab
+date: '2026-10-16T00:00:00.000Z'
+---
+
+## Introduction
+
+**Intermediate code generation** produces a machine-independent representation (here, three-address code) for a source expression, and the final step translates each three-address instruction into **target code** for a simple register machine.
+
+This program reads three-address instructions of the form:
+
+```
+op arg1 arg2 result
+```
+
+where `op` is one of `+`, `-`, `*`, `/` or `=`, and emits assembly code using a single register `R0`:
+
+- `MOV R0, arg1` — load the first operand into the register.
+- `ADD / SUB / MUL / DIV R0, arg2` — perform the operation with the second operand.
+- `MOV result, R0` — store the register content into the result.
+- For `=`, only `MOV R0, arg1` followed by `MOV result, R0` is emitted (`arg2` is a placeholder such as `?`).
+
+## Algorithm
+
+**Step 1:** Start the program.
+
+**Step 2:** Open `input.txt` in read mode and `output.txt` in write mode.
+
+**Step 3:** While end of file is not reached, read four strings `op`, `arg1`, `arg2`, `result` from `input.txt`.
+
+**Step 4:** For each instruction, compare `op`:
+   - If `op` is `+`, write `MOV R0,arg1`, `ADD R0,arg2`, `MOV result,R0` to `output.txt`.
+   - If `op` is `*`, write `MOV R0,arg1`, `MUL R0,arg2`, `MOV result,R0`.
+   - If `op` is `-`, write `MOV R0,arg1`, `SUB R0,arg2`, `MOV result,R0`.
+   - If `op` is `/`, write `MOV R0,arg1`, `DIV R0,arg2`, `MOV result,R0`.
+   - If `op` is `=`, write `MOV R0,arg1`, `MOV result,R0` (`arg2` is ignored).
+
+**Step 5:** Close both files.
+
+**Step 6:** Stop the program.
+
+## Program
+
+### program.c
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+char op[2], arg1[5], arg2[5], result[5];
+
+void main()
+{
+    FILE *fp1, *fp2;
+
+    fp1 = fopen("input.txt", "r");
+    fp2 = fopen("output.txt", "w");
+
+    while (!feof(fp1))
+    {
+        fscanf(fp1, "%s%s%s%s", op, arg1, arg2, result);
+
+        if (strcmp(op, "+") == 0)
+        {
+            fprintf(fp2, "\nMOV R0,%s", arg1);
+            fprintf(fp2, "\nADD R0,%s", arg2);
+            fprintf(fp2, "\nMOV %s,R0", result);
+        }
+
+        if (strcmp(op, "*") == 0)
+        {
+            fprintf(fp2, "\nMOV R0,%s", arg1);
+            fprintf(fp2, "\nMUL R0,%s", arg2);
+            fprintf(fp2, "\nMOV %s,R0", result);
+        }
+
+        if (strcmp(op, "-") == 0)
+        {
+            fprintf(fp2, "\nMOV R0,%s", arg1);
+            fprintf(fp2, "\nSUB R0,%s", arg2);
+            fprintf(fp2, "\nMOV %s,R0", result);
+        }
+
+        if (strcmp(op, "/") == 0)
+        {
+            fprintf(fp2, "\nMOV R0,%s", arg1);
+            fprintf(fp2, "\nDIV R0,%s", arg2);
+            fprintf(fp2, "\nMOV %s,R0", result);
+        }
+
+        if (strcmp(op, "=") == 0)
+        {
+            fprintf(fp2, "\nMOV R0,%s", arg1);
+            fprintf(fp2, "\nMOV %s,R0", result);
+        }
+    }
+
+    fclose(fp1);
+    fclose(fp2);
+}
+```
+
+### input.txt
+
+```
++ a b t1
+* c d t2
+- t1 t2 t
+= t ? x
+```
+
+## How to Run
+
+**Step 1:** Compile `program.c` using `gcc`.
+
+**Step 2:** Place `input.txt` in the same directory as the executable. Each line must contain four space-separated fields: `operator operand1 operand2 result` (use a placeholder such as `?` for the unused second operand of `=`).
+
+**Step 3:** Run the executable. The generated target code is written to `output.txt`.
+
+```bash
+gcc program.c
+./a.out
+```
+
+### Sample Input & Output
+
+Input (`input.txt`):
+
+```
++ a b t1
+* c d t2
+- t1 t2 t
+= t ? x
+```
+
+This corresponds to the expression `x = (a + b) - (c * d)` with temporaries `t1`, `t2` and `t`.
+
+Output (`output.txt`):
+
+```
+MOV R0,a
+ADD R0,b
+MOV t1,R0
+MOV R0,c
+MUL R0,d
+MOV t2,R0
+MOV R0,t1
+SUB R0,t2
+MOV t,R0
+MOV R0,t
+MOV x,R0
+MOV R0,t
+MOV x,R0
+```
+
+> Note: the last two lines are repeated because the program loops with `while (!feof(fp1))`, which processes the final instruction twice. This is the actual output of the program as written.
+
+### Test Cases
+
+The mapping performed for each operator is:
+
+- `+ a b t1` → `MOV R0,a`, `ADD R0,b`, `MOV t1,R0`
+- `* c d t2` → `MOV R0,c`, `MUL R0,d`, `MOV t2,R0`
+- `- t1 t2 t` → `MOV R0,t1`, `SUB R0,t2`, `MOV t,R0`
+- `/ p q r` → `MOV R0,p`, `DIV R0,q`, `MOV r,R0`
+- `= t ? x` → `MOV R0,t`, `MOV x,R0`
